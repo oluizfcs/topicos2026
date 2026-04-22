@@ -1,0 +1,24 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @post %>
+
+<div>
+  <%= link_to "Edit this post", edit_post_path(@post) %> |
+  <%= link_to "Back to posts", posts_path %>
+
+  <%= button_to "Destroy this post", @post, method: :delete %>
+</div>
+
+<section class="section comments">
+<div>
+  <h2>
+    <strong><%= @post.comments.count %></strong> comments
+  </h2>
+  <%= render @post.comments %>
+  <div>
+    <hr>
+    <h3>Leave a reply</h3>
+    <%= render partial: 'comments/form', locals: { comment: @post.comments.build } %>
+  </div>
+</div>
+</section>
