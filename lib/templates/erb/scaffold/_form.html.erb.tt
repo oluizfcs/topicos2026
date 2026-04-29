@@ -1,0 +1,45 @@
+<%%= form_with(model: <%= singular_table_name %>, class: "needs-validation") do |form| %>
+
+  <%% if <%= singular_table_name %>.errors.any? %>
+    <div class="alert alert-danger">
+      <h6 class="fw-bold"><%%= pluralize(<%= singular_table_name %>.errors.count, "erro") %> impediram o salvamento:</h6>
+      <ul class="mb-0">
+        <%% <%= singular_table_name %>.errors.each do |error| %>
+          <li><%%= error.full_message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+<% attributes.each do |attr| -%>
+  <div class="mb-3">
+    <%%= form.label :<%= attr.name %>, class: "form-label fw-semibold" %>
+<% if attr.type == :text -%>
+    <%%= form.text_area :<%= attr.name %>, class: "form-control #{"is-invalid" if <%= singular_table_name %>.errors[:<%= attr.name %>].any?}", rows: 4 %>
+<% elsif attr.type == :boolean -%>
+    <div class="form-check">
+      <%%= form.check_box :<%= attr.name %>, class: "form-check-input" %>
+    </div>
+<% elsif attr.type == :date -%>
+    <%%= form.date_field :<%= attr.name %>, class: "form-control #{"is-invalid" if <%= singular_table_name %>.errors[:<%= attr.name %>].any?}" %>
+<% elsif attr.type == :datetime -%>
+    <%%= form.datetime_field :<%= attr.name %>, class: "form-control #{"is-invalid" if <%= singular_table_name %>.errors[:<%= attr.name %>].any?}" %>
+<% elsif attr.type == :integer || attr.type == :float || attr.type == :decimal -%>
+    <%%= form.number_field :<%= attr.name %>, class: "form-control #{"is-invalid" if <%= singular_table_name %>.errors[:<%= attr.name %>].any?}" %>
+<% else -%>
+    <%%= form.text_field :<%= attr.name %>, class: "form-control #{"is-invalid" if <%= singular_table_name %>.errors[:<%= attr.name %>].any?}" %>
+<% end -%>
+    <%% if <%= singular_table_name %>.errors[:<%= attr.name %>].any? %>
+      <div class="invalid-feedback d-block">
+        <%%= <%= singular_table_name %>.errors[:<%= attr.name %>].join(", ") %>
+      </div>
+    <%% end %>
+  </div>
+
+<% end -%>
+  <div class="d-flex gap-2 mt-4">
+    <%%= form.submit class: "btn btn-primary" %>
+    <%%= link_to "Cancelar", <%= index_helper %>_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+<%% end %>

@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :genres
+  devise_for :users
+  root to: "posts#index"
+
+  resources :comments
+  resources :posts
   get "example/test"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

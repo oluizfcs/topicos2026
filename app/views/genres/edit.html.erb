@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Editar Genre</h1>
+    <div>
+      <%= link_to "Ver", @genre, class: "btn btn-outline-info me-2" %>
+      <%= link_to "Voltar", genres_path, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <%= render "form", genre: @genre %>
+    </div>
+  </div>
+</div>

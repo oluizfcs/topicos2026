@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold"><%= human_name %></h1>
+    <div>
+      <%%= link_to "Editar", edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: "btn btn-warning me-2" %>
+      <%%= link_to "Voltar", <%= index_helper %>_path, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <%% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <%% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <% attributes.each do |attr| -%>
+        <dt class="col-sm-3 text-muted"><%= attr.human_name %></dt>
+        <dd class="col-sm-9"><%%= @<%= singular_table_name %>.<%= attr.name %> %></dd>
+        <% end -%>
+      </dl>
+    </div>
+    <div class="card-footer text-end">
+      <%%= link_to "Excluir", @<%= singular_table_name %>, data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>

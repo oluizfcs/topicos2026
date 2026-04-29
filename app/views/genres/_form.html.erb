@@ -1,0 +1,29 @@
+<%= form_with(model: genre, class: "needs-validation") do |form| %>
+
+  <% if genre.errors.any? %>
+    <div class="alert alert-danger">
+      <h6 class="fw-bold"><%= pluralize(genre.errors.count, "erro") %> impediram o salvamento:</h6>
+      <ul class="mb-0">
+        <% genre.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label fw-semibold" %>
+    <%= form.text_field :title, class: "form-control #{"is-invalid" if genre.errors[:title].any?}" %>
+    <% if genre.errors[:title].any? %>
+      <div class="invalid-feedback d-block">
+        <%= genre.errors[:title].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancelar", genres_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+<% end %>
