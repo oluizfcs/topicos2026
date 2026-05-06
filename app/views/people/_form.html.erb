@@ -1,0 +1,79 @@
+<%= form_with(model: person, class: "needs-validation") do |form| %>
+
+  <% if person.errors.any? %>
+    <div class="alert alert-danger">
+      <h6 class="fw-bold"><%= pluralize(person.errors.count, "erro") %> impediram o salvamento:</h6>
+      <ul class="mb-0">
+        <% person.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :cpf, class: "form-label fw-semibold" %>
+    <%= form.text_field :cpf, class: "form-control #{"is-invalid" if person.errors[:cpf].any?}" %>
+    <% if person.errors[:cpf].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:cpf].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :nome, class: "form-label fw-semibold" %>
+    <%= form.text_field :nome, class: "form-control #{"is-invalid" if person.errors[:nome].any?}" %>
+    <% if person.errors[:nome].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:nome].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :data_nascimento, class: "form-label fw-semibold" %>
+    <%= form.date_field :data_nascimento, class: "form-control #{"is-invalid" if person.errors[:data_nascimento].any?}" %>
+    <% if person.errors[:data_nascimento].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:data_nascimento].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :biografia, class: "form-label fw-semibold" %>
+    <%= form.text_area :biografia, class: "form-control #{"is-invalid" if person.errors[:biografia].any?}", rows: 4 %>
+    <% if person.errors[:biografia].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:biografia].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :genero, class: "form-label fw-semibold" %>
+    <%= form.text_field :genero, class: "form-control #{"is-invalid" if person.errors[:genero].any?}" %>
+    <% if person.errors[:genero].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:genero].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :nacionalidade, class: "form-label fw-semibold" %>
+    <%= form.text_field :nacionalidade, class: "form-control #{"is-invalid" if person.errors[:nacionalidade].any?}" %>
+    <% if person.errors[:nacionalidade].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:nacionalidade].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancelar", people_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+<% end %>

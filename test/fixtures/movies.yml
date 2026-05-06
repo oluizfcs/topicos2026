@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  duracao: 1
+  data_lancamento: 2026-05-06
+  classificacao: MyString
+  sinopse: MyText
+
+two:
+  nome: MyString
+  duracao: 1
+  data_lancamento: 2026-05-06
+  classificacao: MyString
+  sinopse: MyText

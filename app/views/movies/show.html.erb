@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Movie</h1>
+    <div>
+      <%= link_to "Editar", edit_movie_path(@movie), class: "btn btn-warning me-2" %>
+      <%= link_to "Voltar", movies_path, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <dl class="row mb-0">
+                <dt class="col-sm-3 text-muted">Nome</dt>
+        <dd class="col-sm-9"><%= @movie.nome %></dd>
+                <dt class="col-sm-3 text-muted">Duracao</dt>
+        <dd class="col-sm-9"><%= @movie.duracao %></dd>
+                <dt class="col-sm-3 text-muted">Data lancamento</dt>
+        <dd class="col-sm-9"><%= @movie.data_lancamento %></dd>
+                <dt class="col-sm-3 text-muted">Classificacao</dt>
+        <dd class="col-sm-9"><%= @movie.classificacao %></dd>
+                <dt class="col-sm-3 text-muted">Sinopse</dt>
+        <dd class="col-sm-9"><%= @movie.sinopse %></dd>
+              </dl>
+    </div>
+    <div class="card-footer text-end">
+      <%= link_to "Excluir", @movie, data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>

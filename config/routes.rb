@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :movies
+  resources :people
   resources :genres
   devise_for :users
   root to: "posts#index"

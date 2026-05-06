@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cpf: MyString
+  nome: MyString
+  data_nascimento: 2026-05-06
+  biografia: MyText
+  genero: MyString
+  nacionalidade: MyString
+
+two:
+  cpf: MyString
+  nome: MyString
+  data_nascimento: 2026-05-06
+  biografia: MyText
+  genero: MyString
+  nacionalidade: MyString
