@@ -57,3 +57,10 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "pry"
+gem "pry-doc"
+gem "pry-nav"
+gem "pry-rails"
+gem "pry-theme"
+gem "mercadopago-sdk"

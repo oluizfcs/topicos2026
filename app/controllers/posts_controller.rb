@@ -1,3 +1,5 @@
+require 'mercadopago'
+
 class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: %i[ show edit update destroy ]
@@ -58,6 +60,30 @@ class PostsController < ApplicationController
     end
   end
 
+  def process_payment
+    sdk = Mercadopago::SDK.new('ACCESS_TOKEN')
+
+    payment_data = {
+      transaction_amount: params[:transaction_amount].to_f,
+      token:              params[:token],
+      description:        'Compra',
+      installments:       params[:installments].to_i,
+      payment_method_id:  params[:payment_method_id],
+      payer: {
+        email:          params.dig(:payer, :email),
+        identification: {
+          type:   params.dig(:payer, :identification, :type),
+          number: params.dig(:payer, :identification, :number)
+        }
+      }
+    }
+
+    result  = sdk.payment.create(payment_data)
+    payment = result[:response]
+
+    render json: { status: payment['status'], id: payment['id'], detail: payment['status_detail'] }
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
