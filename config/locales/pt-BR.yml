@@ -1,0 +1,11 @@
+pt-BR:
+  mongoid:
+    errors:
+      messages:
+        blank: "não pode ficar em branco"
+  errors:
+    attributes:
+      password:
+        too_short: "- a senha deve ter no mínimo 3 caracteres"
+      password_confirmation:
+        confirmation: "- as senhas não coincidem"

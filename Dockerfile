@@ -7,14 +7,15 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 # Set the working directory
 WORKDIR /app
 
-# Install Bundler and Rails
-RUN gem install bundler rails
+# Install Bundler
+RUN gem install bundler -v 2.5.23
 
 # Copy the Gemfile and Gemfile.lock to the container
 COPY Gemfile* /app/
 
 # Install gems
-RUN bundle install
+RUN bundle config set --local deployment 'false' && \
+    bundle install --jobs 4 --retry 3
 
 # Copy the rest of the application code
 COPY . /app

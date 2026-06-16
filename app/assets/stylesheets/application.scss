@@ -14,4 +14,36 @@
  *= require_self
  */
 
- @import "bootstrap";
+$primary: #ffac33;
+
+$body-bg-dark: #2a2a2a;
+$body-secondary-bg-dark: #3a3a3a;
+$dark: #1a1a1a;
+
+@import "bootstrap";
+
+@font-face {
+  font-family: Bigbesty;
+  src: asset_url('Bigbesty.otf');
+}
+
+#logo-link img {
+  transition: .7s;
+}
+
+#logo-link:hover img {
+  transform: rotate(140deg);
+}
+
+.brand-name {
+  font-family: Bigbesty;
+  font-size: 2rem;
+}
+
+#movie {
+  color: #fff;
+}
+
+#star {
+  color: #ffac33;
+}

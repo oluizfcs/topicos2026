@@ -64,3 +64,6 @@ gem "pry-nav"
 gem "pry-rails"
 gem "pry-theme"
 gem "mercadopago-sdk"
+
+gem "shrine-mongoid", "~> 1.0"
+gem "image_processing", "~> 1.2"

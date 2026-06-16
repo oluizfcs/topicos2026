@@ -1,0 +1,125 @@
+<%= form_with(model: [:admin, movie], class: "needs-validation", multipart: true) do |form| %>
+
+  <% if movie.errors.any? %>
+    <div class="alert alert-danger">
+      <h6 class="fw-bold"><%= pluralize(movie.errors.count, "erro") %> impediram o salvamento:</h6>
+      <ul class="mb-0">
+        <% movie.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :nome, class: "form-label fw-semibold" %>
+    <%= form.text_field :nome, value: 'teste',class: "form-control #{"is-invalid" if movie.errors[:nome].any?}" %>
+    <% if movie.errors[:nome].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:nome].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :duracao, "Duração", class: "form-label fw-semibold" %>
+    <%= form.number_field :duracao, value: '123', class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+    <% if movie.errors[:duracao].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:duracao].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :data_lançamento, "Data de lançamento", class: "form-label fw-semibold" %>
+    <%= form.date_field :data_lancamento, value: '2020-02-02', class: "form-control #{"is-invalid" if movie.errors[:data_lancamento].any?}" %>
+    <% if movie.errors[:data_lancamento].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:data_lancamento].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :classificacao, "Classificação", class: "form-label fw-semibold" %>
+    <%= form.text_field :classificacao, value: '12', class: "form-control #{"is-invalid" if movie.errors[:classificacao].any?}" %>
+    <% if movie.errors[:classificacao].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:classificacao].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :sinopse, class: "form-label fw-semibold" %>
+    <%= form.text_area :sinopse, class: "form-control #{"is-invalid" if movie.errors[:sinopse].any?}", rows: 4 %>
+    <% if movie.errors[:sinopse].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:sinopse].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :genre_ids, "Gêneros", class: "form-label fw-semibold" %>
+    <%= form.collection_select :genre_ids, Genre.all, :id, :nome, {}, { multiple: true, class: "form-control #{"is-invalid" if movie.errors[:genre_ids].any?}" } %>
+    <% if movie.errors[:genre_ids].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:genre_ids].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+
+
+<!--  {{-- Container que recebe os novos campos --}}-->
+  <div id="campos-imagem">
+    <div class="campo-imagem mb-2 d-flex align-items-center gap-2">
+      <input type="file" name="movie[photos][]" class="form-control"
+             accept="image/jpeg,image/png,image/webp">
+      <label class="mb-0">
+        <input type="radio" name="movie[poster_index]" value="0"> Poster
+      </label>
+    </div>
+  </div>
+  <button type="button" id="btn-adicionar" class="btn btn-outline-secondary btn-sm">
+    + Adicionar imagem
+  </button>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancelar", admin_movies_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+<% end %>
+
+<script>
+    const container = document.getElementById('campos-imagem');
+    const btnAdicionar = document.getElementById('btn-adicionar');
+    let indice = 1;
+
+    function reindexarCampos() {
+        const campos = container.querySelectorAll('.campo-imagem');
+        campos.forEach((campo, i) => {
+            const checkbox = campo.querySelector('input[name="poster_index"]');
+            if (checkbox) checkbox.value = i;
+        });
+        indice = campos.length; // atualiza o contador para o próximo campo
+    }
+
+    btnAdicionar.addEventListener('click', () => {
+        const div = document.createElement('div');
+        div.className = 'campo-imagem mb-2 d-flex align-items-center gap-2';
+        div.innerHTML = `
+<input type="file" name="movie[photos][]" class="form-control"
+accept="image/jpeg,image/png,image/webp">
+<label class="mb-0">
+<input type="radio" name="movie[poster_index]" value="${indice}"> Poster
+</label>
+<button type="button" class="btn btn-sm btn-outline-danger"
+onclick="this.closest('.campo-imagem').remove(); reindexarCampos()">✕</button>`;
+        container.appendChild(div);
+        indice++;
+    });
+</script>

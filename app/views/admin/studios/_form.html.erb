@@ -1,0 +1,39 @@
+<%= form_with(model: [:admin, studio], class: "needs-validation") do |form| %>
+
+  <% if studio.errors.any? %>
+    <div class="alert alert-danger">
+      <h6 class="fw-bold"><%= pluralize(studio.errors.count, "erro") %> impediram o salvamento:</h6>
+      <ul class="mb-0">
+        <% studio.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :nome, class: "form-label fw-semibold" %>
+    <%= form.text_field :nome, class: "form-control #{"is-invalid" if studio.errors[:nome].any?}" %>
+    <% if studio.errors[:nome].any? %>
+      <div class="invalid-feedback d-block">
+        <%= studio.errors[:nome].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :local, class: "form-label fw-semibold" %>
+    <%= form.text_field :local, class: "form-control #{"is-invalid" if studio.errors[:local].any?}" %>
+    <% if studio.errors[:local].any? %>
+      <div class="invalid-feedback d-block">
+        <%= studio.errors[:local].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancelar", admin_studios_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+<% end %>

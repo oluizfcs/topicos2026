@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Pessoa</h1>
+    <div>
+      <%= link_to "Editar", edit_admin_person_path(@person), class: "btn btn-warning me-2" %>
+      <%= link_to "Voltar", admin_people_path, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <dl class="row mb-0">
+                <dt class="col-sm-3 text-muted">CPF</dt>
+        <dd class="col-sm-9"><%= @person.cpf %></dd>
+                <dt class="col-sm-3 text-muted">Nome</dt>
+        <dd class="col-sm-9"><%= @person.nome %></dd>
+                <dt class="col-sm-3 text-muted">Data de nascimento</dt>
+        <dd class="col-sm-9"><%= @person.data_nascimento %></dd>
+                <dt class="col-sm-3 text-muted">Biografia</dt>
+        <dd class="col-sm-9"><%= @person.biografia %></dd>
+                <dt class="col-sm-3 text-muted">Gênero</dt>
+        <dd class="col-sm-9"><%= @person.genero %></dd>
+                <dt class="col-sm-3 text-muted">Nacionalidade</dt>
+        <dd class="col-sm-9"><%= @person.nacionalidade %></dd>
+              </dl>
+    </div>
+    <div class="card-footer text-end">
+      <%= link_to "Excluir", [:admin, @person], data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>
