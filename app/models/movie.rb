@@ -13,4 +13,8 @@ class Movie
   embeds_many :people, class_name: "MoviePerson"
   has_and_belongs_to_many :genres
   accepts_nested_attributes_for :people, allow_destroy: true
+
+  def poster
+    self.movie_photos.where(is_poster: true).first
+  end
 end

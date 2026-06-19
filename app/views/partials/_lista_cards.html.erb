@@ -1,0 +1,19 @@
+<hr style="border-top: 2.5px dashed">
+<h2><%= list_label %></h2>
+
+<div class="container px-0">
+  <% card_list.to_a.each_with_index do |card, i| %>
+    <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start p-3 gap-3 <%= "border-bottom" unless i == card_list.size - 1 %> border-secondary-subtle">
+      
+      <div class="flex-shrink-0">
+        <%= image_tag card[:img].present? ? card[:img] : "star.png", alt: "", class: "rounded-circle border border-1 border-secondary", style: "width: 80px; height: 80px; object-fit: cover;" %>
+      </div>
+      
+      <div class="text-center text-sm-start w-100">
+        <p class="fw-bold mb-1 fs-5"><%= link_to card[:title], card[:obj] %></p>
+        <p class="text-muted mb-0"><%= card[:subtitle] %></p>
+      </div>
+
+    </div>
+  <% end %>
+</div>

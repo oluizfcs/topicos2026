@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Pessoa</h1>
+    <div>
+      <%= link_to "Voltar", :back, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm border-secondary">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <div class="clearfix">
+        <%= image_tag @person.photo.present? ? @person.photo_url : "profile.png", alt: "Foto de " + @person.nome, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
+        <h1 class="display-2"><%= @person.nome %></h1>
+        <%= @person.biografia %>
+        </div>
+      </dl>
+      <%= render 'partials/lista_cards', { list_label: "Atuou em", card_list: @credits["ator"] } if @credits["ator"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Dirigiu", card_list: @credits["diretor"] } if @credits["diretor"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Escreveu", card_list: @credits["escritor"] } if @credits["escritor"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Produziu", card_list: @credits["produtor"] } if @credits["produtor"].present? %>
+    </div>
+  </div>
+</div>

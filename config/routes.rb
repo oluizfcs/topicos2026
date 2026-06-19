@@ -9,8 +9,9 @@ Rails.application.routes.draw do
     resources :studios
   end
 
-  get "/movies/:id" => "movies#show"
+  get "/movies/:id" => "movies#show", as: 'movie'
   get "/people/buscar" => "people#buscar"
+  get "/people/:id" => "people#show", as: 'person'
 
   resources :comments
   resources :posts

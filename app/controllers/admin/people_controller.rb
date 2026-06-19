@@ -54,6 +54,10 @@ class Admin::PeopleController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def person_params
-      params.require(:person).permit(:cpf, :nome, :data_nascimento, :biografia, :genero, :nacionalidade)
+      params.require(:person).permit(
+        :cpf, :nome, :data_nascimento,
+        :biografia, :genero, :nacionalidade,
+        :photo, :photo_cache
+      )
     end
 end

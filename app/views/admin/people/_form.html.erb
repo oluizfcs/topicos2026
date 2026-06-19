@@ -2,7 +2,7 @@
   person = person.is_a?(Array) ? person.last : person
 %>
 
-<%= form_with(model: person, scope: :person, url: person.persisted? ? admin_person_path(person) : admin_people_path, class: "needs-validation") do |form| %>
+<%= form_with(model: person, multipart: true, scope: :person, url: person.persisted? ? admin_person_path(person) : admin_people_path, class: "needs-validation") do |form| %>
 
   <% if person.errors.any? %>
     <div class="alert alert-danger">
@@ -71,6 +71,17 @@
     <% if person.errors[:nacionalidade].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:nacionalidade].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :photo, "Foto", class: "form-label fw-semibold" %>
+    <%= form.hidden_field :photo, value: person.cached_photo_data %>
+    <%= form.file_field :photo, accept: "image/*" %>
+    <% if person.errors[:photo].any? %>
+      <div class="invalid-feedback d-block">
+        <%= person.errors[:photo].join(", ") %>
       </div>
     <% end %>
   </div>
