@@ -17,7 +17,7 @@
 
   <div class="mb-3">
     <%= form.label :cpf, "CPF", class: "form-label fw-semibold" %>
-    <%= form.text_field :cpf, class: "form-control #{"is-invalid" if person.errors[:cpf].any?}" %>
+    <%= form.text_field :cpf, value: "000.000.000-00", class: "form-control #{"is-invalid" if person.errors[:cpf].any?}" %>
     <% if person.errors[:cpf].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:cpf].join(", ") %>
@@ -27,7 +27,7 @@
 
   <div class="mb-3">
     <%= form.label :nome, class: "form-label fw-semibold" %>
-    <%= form.text_field :nome, class: "form-control #{"is-invalid" if person.errors[:nome].any?}" %>
+    <%= form.text_field :nome, value: "Fulano", class: "form-control #{"is-invalid" if person.errors[:nome].any?}" %>
     <% if person.errors[:nome].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:nome].join(", ") %>
@@ -37,7 +37,7 @@
 
   <div class="mb-3">
     <%= form.label :data_nascimento, "Data de nascimento", class: "form-label fw-semibold" %>
-    <%= form.date_field :data_nascimento, class: "form-control #{"is-invalid" if person.errors[:data_nascimento].any?}" %>
+    <%= form.date_field :data_nascimento, value: "2010-10-10", class: "form-control #{"is-invalid" if person.errors[:data_nascimento].any?}" %>
     <% if person.errors[:data_nascimento].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:data_nascimento].join(", ") %>
@@ -57,7 +57,7 @@
 
   <div class="mb-3">
     <%= form.label :genero, "Gênero", class: "form-label fw-semibold" %>
-    <%= form.text_field :genero, class: "form-control #{"is-invalid" if person.errors[:genero].any?}" %>
+    <%= form.text_field :genero, value: "X", class: "form-control #{"is-invalid" if person.errors[:genero].any?}" %>
     <% if person.errors[:genero].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:genero].join(", ") %>
@@ -67,7 +67,7 @@
 
   <div class="mb-3">
     <%= form.label :nacionalidade, class: "form-label fw-semibold" %>
-    <%= form.text_field :nacionalidade, class: "form-control #{"is-invalid" if person.errors[:nacionalidade].any?}" %>
+    <%= form.text_field :nacionalidade, value: "Brasileira", class: "form-control #{"is-invalid" if person.errors[:nacionalidade].any?}" %>
     <% if person.errors[:nacionalidade].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:nacionalidade].join(", ") %>

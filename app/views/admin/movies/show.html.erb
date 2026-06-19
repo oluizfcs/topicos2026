@@ -30,6 +30,13 @@
         <dd class="col-sm-9"><%= @movie.sinopse %></dd>
         <dt class="col-sm-3 text-muted">Gêneros</dt>
         <dd class="col-sm-9"><%= @movie.genres.map(&:nome).join(', ')%></dd>
+        <dt class="col-sm-3 text-muted">Pessoas</dt>
+        <dd class="col-sm-9">
+          <% @movie.people.each do |p| %>
+            <%= link_to p.person.nome, admin_person_path(p.person) %>
+            <%= "- #{p.tipo} #{"(" + p.papel + ")" if p.papel.present?}" %> <br>
+          <% end %>
+        </dd>
       </dl>
     </div>
     <div class="card-footer text-end">

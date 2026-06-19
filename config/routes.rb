@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
 
   get "/movies/:id" => "movies#show"
+  get "/people/buscar" => "people#buscar"
 
   resources :comments
   resources :posts
