@@ -21,14 +21,18 @@
     <% end %>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :duracao, "Duração", class: "form-label fw-semibold" %>
-    <%= form.number_field :duracao, class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+  <div class="mb-3" style="display: flex; gap: 10px; align-items: center;">
+    <%= form.label :duracao, "Duração: ", class: "form-label fw-semibold mb-0" %>
+    <%= form.number_field :horas, onchange: "calcularDuracao();", style: "max-width: 65px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+    <%= form.label :horas, "hora(s) e", class: "form-label fw-semibold mb-0" %>
+    <%= form.number_field :minutos, onchange: "calcularDuracao();", style: "max-width: 65px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+    <%= form.label :minutos, "minuto(s)", class: "form-label fw-semibold mb-0" %>
     <% if movie.errors[:duracao].any? %>
       <div class="invalid-feedback d-block">
         <%= movie.errors[:duracao].join(", ") %>
       </div>
     <% end %>
+    <%= form.hidden_field :duracao %>
   </div>
 
   <div class="mb-3">
@@ -43,7 +47,7 @@
 
   <div class="mb-3">
     <%= form.label :classificacao, "Classificação", class: "form-label fw-semibold" %>
-    <%= form.text_field :classificacao, class: "form-control #{"is-invalid" if movie.errors[:classificacao].any?}" %>
+    <%= form.select :classificacao, ["L", "10", "12", "14", "16", "18"], {}, { class: "form-control #{"is-invalid" if movie.errors[:classificacao].any?}" } %>
     <% if movie.errors[:classificacao].any? %>
       <div class="invalid-feedback d-block">
         <%= movie.errors[:classificacao].join(", ") %>
@@ -281,5 +285,24 @@
       indice++;
     });
   }
+
+  const duracaoHoras = document.getElementById("movie_horas");
+  const duracaoMinutos = document.getElementById("movie_minutos");
+  const movieDuracao = document.getElementById("movie_duracao");
+
+  function calcularDuracao() {
+    if (duracaoHoras.value == "") duracaoHoras.value = 0;
+    if (duracaoMinutos.value == "") duracaoMinutos.value = 0;
+    if (duracaoMinutos.value == "0" && duracaoHoras.value == "0") {
+      duracaoHoras.value = Math.trunc(parseInt(movieDuracao.value)/60);
+      duracaoMinutos.value = parseInt(movieDuracao.value % 60);
+      
+    }
+
+    let duracao = (parseInt(duracaoHoras.value) * 60) + parseInt(duracaoMinutos.value);
+    movieDuracao.value = duracao;
+  }
+
+  calcularDuracao();
   }
 </script>

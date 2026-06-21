@@ -1,4 +1,4 @@
-<hr style="border-top: 2.5px dashed">
+<hr>
 <h2><%= list_label %></h2>
 
 <div class="container px-0">
@@ -6,7 +6,7 @@
     <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start p-3 gap-3 <%= "border-bottom" unless i == card_list.size - 1 %> border-secondary-subtle">
       
       <div class="flex-shrink-0">
-        <%= image_tag card[:img].present? ? card[:img] : "star.png", alt: "", class: "rounded-circle border border-1 border-secondary", style: "width: 80px; height: 80px; object-fit: cover;" %>
+        <%= image_tag card[:img].present? ? card[:img] : "profile.png", alt: "", class: "rounded-circle border border-1 border-secondary", style: "width: 80px; height: 80px; object-fit: cover;" %>
       </div>
       
       <div class="text-center text-sm-start w-100">

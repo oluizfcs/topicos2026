@@ -13,6 +13,7 @@
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
   <%= javascript_include_tag "turbo", type: "module" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
@@ -28,7 +29,7 @@
         <%= root_path %>"
          class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
         <%= image_tag "star.svg", alt: "brand logo", height: '32', width: '32', class: "me-1 mb-2" %>
-        <span class="brand-name me-2"><span id="movie">Movie</span><span id="star">star</span></span>
+        <span class="brand-name me-2">Movie<span class="text-primary">star</span></span>
       </a>
       <% if current_user&.admin? %>
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -60,7 +61,7 @@
         <div class="dropdown text-end">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
              data-bs-toggle="dropdown" aria-expanded="false">
-            <%= image_tag "profile.png", alt: "Foto de usuário", height: '32', width: '32', class: "rounded-circle" %>
+            <%= image_tag current_user.photo_url.present? ? current_user.photo_url : "profile.png", alt: "Sua foto de usuário", height: '32', width: '32', class: "rounded-circle" %>
           </a>
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="#">Configurações</a></li>
