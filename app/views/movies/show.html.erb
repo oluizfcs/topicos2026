@@ -64,6 +64,8 @@
       <h2>Avaliações dos usuários</h2>
       <% if @reviews.size > 0 %>
         <%= render @reviews %>
+      <% elsif user_signed_in? && @review.persisted? %>
+        <p>Só você avaliou este filme por enquanto.</p>
       <% else %>
         <p>Este filme não tem avaliações por enquanto.</p>
       <% end %>
@@ -71,7 +73,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="edit-review-modal" tabindex="-1" aria-hidden="true">
+<% if @review.present? %>
+<div class="modal fade" id="edit-review-modal-<%= @review.id %>" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -83,3 +86,4 @@
     </div>
   </div>
 </div>
+<% end %>

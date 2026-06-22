@@ -2,16 +2,29 @@
   <div class="card-body">
     <div class="clearfix p-2">
       
-      <div class="float-start me-3 mb-2">
-        <%= image_tag review.user.photo_url.present? ? review.user.photo_url : "profile.png", 
-                      alt: "Foto de #{review.user.nome}", 
-                      class: "rounded-circle border border-1 border-secondary", 
-                      style: "width: 60px; height: 60px; object-fit: cover;" %>
-      </div>
-      
-      <div class="d-flex align-items-center gap-2 mb-1">
-        <h3 class="fs-5 mb-0"><%= link_to review.user.nome, review.user %></h3>
-      </div>
+      <% if controller_name == "movies" %>
+        <div class="float-start me-3 mb-2">
+          <%= image_tag review.user.photo_url.present? ? review.user.photo_url : "profile.png", 
+                        alt: "Foto de #{review.user.nome}", 
+                        class: "rounded-circle border border-1 border-secondary", 
+                        style: "width: 60px; height: 60px; object-fit: cover;" %>
+        </div>
+        
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <h3 class="fs-5 mb-0"><%= link_to review.user.nome, review.user %></h3>
+        </div>
+      <% else %>
+        <div class="float-start me-3 mb-2">
+          <%= image_tag review.movie.poster.image_url, 
+                        alt: "Foto de #{review.user.nome}", 
+                        class: "rounded-circle border border-1 border-secondary", 
+                        style: "width: 60px; height: 60px; object-fit: cover;" %>
+        </div>
+        
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <h3 class="fs-5 mb-0"><%= link_to review.movie.nome, review.movie %> <span style="color: #ffcd85">(<i class="bi bi-star-fill"></i> <%= review.movie.nota %>)</span></h3>
+        </div>
+      <% end %>
         <% stars = review.nota.to_i.clamp(1, 5) %>
         <span class="small">
           <% stars.times do %>
@@ -30,7 +43,7 @@
       <% if current_user&.id == review.user_id || current_user&.admin %>
         <div class="text-end">
           <% if current_user.id == review.user_id %>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#edit-review-modal" class="btn btn-sm btn-outline-primary">Editar</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#edit-review-modal-<%= review.id %>" class="btn btn-sm btn-outline-primary">Editar</button>
           <% end %>
           <%= link_to 'Excluir', [review],
             class: "btn btn-sm btn-outline-danger",

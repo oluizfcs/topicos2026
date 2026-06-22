@@ -19,7 +19,7 @@ class ReviewsController < ApplicationController
 
   def update
     if @review.update(review_params)
-      redirect_to movie_path(@review.movie_id), notice: "Avaliação atualizada."
+      redirect_back fallback_location: root_path, notice: "Avaliação atualizada com sucesso.", status: :see_other
     end
   end
 

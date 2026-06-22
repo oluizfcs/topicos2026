@@ -25,7 +25,9 @@ class Movie
   end
 
   def nota
-    notas = self.reviews.map { |n| n.nota }
+    notas = self.reviews.pluck(:nota)
+    return 0 if notas.empty?
+    
     average = "%.1f" % notas.reduce(:+).fdiv(notas.size)
     sprintf("%g", average)
   end

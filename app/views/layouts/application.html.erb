@@ -29,7 +29,7 @@
         <%= root_path %>"
          class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
         <%= image_tag "star.svg", alt: "brand logo", height: '32', width: '32', class: "me-1 mb-2" %>
-        <span class="brand-name me-2">Movie<span class="text-primary">star</span></span>
+        <span class="brand-name fs-2 me-2">Movie<span class="text-primary">star</span></span>
       </a>
       <% if current_user&.admin? %>
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -59,13 +59,13 @@
       </form>
       <% if user_signed_in? %>
         <div class="dropdown text-end">
-          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+          <a href="<%= profile_path %>" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
              data-bs-toggle="dropdown" aria-expanded="false">
             <%= image_tag current_user.photo_url.present? ? current_user.photo_url : "profile.png", alt: "Sua foto de usuário", height: '32', width: '32', class: "rounded-circle" %>
           </a>
           <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="#">Configurações</a></li>
-            <li><a class="dropdown-item" href="#">Perfil</a></li>
+            <%# <li><a class="dropdown-item" href="#">Configurações</a></li> %>
+            <li><a class="dropdown-item" href="<%= profile_path %>">Perfil</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -146,7 +146,7 @@
             </div>
         </div>
         <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-            <p>&copy; <%= Time.now.year %> Moviestar</p>
+            <p class="brand-name fs-5">&copy; <%= Time.now.year %> Moviestar</p>
             <ul class="list-unstyled d-flex">
                 <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Instagram"><svg
                             class="bi" width="24" height="24">

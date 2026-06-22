@@ -9,11 +9,13 @@ Rails.application.routes.draw do
     resources :studios
   end
 
-  get "/movies/:id" => "movies#show", as: 'movie'
   get "/people/buscar" => "people#buscar"
   get "/people/:id" => "people#show", as: 'person'
-  get "/users/:id" => "users#show", as: 'user'
-
+  get "/movies/:id" => "movies#show", as: 'movie'
+  
+  get "/profile" => "users#index", as: 'profile'
+  
+  resources :users, only: [:show, :edit]
   resources :reviews, only: [:create, :update, :destroy]
 
   post "/process_payment", to: "posts#process_payment"

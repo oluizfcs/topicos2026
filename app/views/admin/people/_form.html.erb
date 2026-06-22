@@ -1,7 +1,3 @@
-<%
-  person = person.is_a?(Array) ? person.last : person
-%>
-
 <%= form_with(model: person, multipart: true, scope: :person, url: person.persisted? ? admin_person_path(person) : admin_people_path, class: "needs-validation") do |form| %>
 
   <% if person.errors.any? %>
@@ -27,7 +23,7 @@
 
   <div class="mb-3">
     <%= form.label :nome, class: "form-label fw-semibold" %>
-    <%= form.text_field :nome, value: "Fulano", class: "form-control #{"is-invalid" if person.errors[:nome].any?}" %>
+    <%= form.text_field :nome, class: "form-control #{"is-invalid" if person.errors[:nome].any?}" %>
     <% if person.errors[:nome].any? %>
       <div class="invalid-feedback d-block">
         <%= person.errors[:nome].join(", ") %>

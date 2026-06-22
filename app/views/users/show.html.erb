@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Perfil de <%= @user.nome %></h1>
+    <div>
+      <%= link_to "Editar Perfil", edit_user_registration_path, class: "btn btn-outline-primary" if current_user&.id == @user.id %>
+      <%= link_to "Voltar", :back, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm border-secondary">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <div class="clearfix">
+        <%= image_tag @user.photo.present? ? @user.photo_url : "profile.png", alt: "Foto de perfil de " + @user.nome.to_s, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
+        <h1 class="display-2"><%= @user.nome %></h1>
+        <i class="bi bi-box-arrow-in-right text-primary fs-5"></i> Entrou em <%= l(@user.created_at, format: "%B de %Y") %>
+        <%# @user.biografia %>
+        </div>
+      </dl>
+      <% if @reviews.count > 0 %>
+        <h2 class="mt-5">Avaliações do usuário (<%= @reviews.count %>)</h2>
+        <%= render @reviews %>      
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% @reviews.each do |review| %>
+<div class="modal fade" id="edit-review-modal-<%= review.id %>" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <%= render "reviews/form", movie: Movie.find(review.movie_id), review: review, title: "Editar Avaliação" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

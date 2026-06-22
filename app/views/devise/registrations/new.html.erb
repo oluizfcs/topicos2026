@@ -1,11 +1,22 @@
 <div class="row justify-content-center">
   <div class="col-md-6 col-sm-12">
     <h2 class="display-4 text-center mb-2">Cadastrar</h2>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "card p-5 needs-validation bg-dark" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), multipart: true, html: { class: "card p-5 needs-validation bg-dark" }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <div class="form-floating mb-3">
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "", required: true, class: "form-control" %>
+        <%= f.text_field :nome, autofocus: true, autocomplete: "nome", placeholder: "", required: true, class: "form-control" %>
+        <%= f.label :nome %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.email_field :email, autocomplete: "email", placeholder: "", required: true, class: "form-control" %>
         <%= f.label :email %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :photo, "Foto", class: "form-label fw-semibold" %>
+        <%= f.hidden_field :photo, value: resource.cached_photo_data %>
+        <%= f.file_field :photo, class: "form-control", accept: "image/*" %>
       </div>
       
       <div class="form-floating mb-3">

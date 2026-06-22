@@ -9,3 +9,22 @@ pt-BR:
         too_short: "- a senha deve ter no mínimo 3 caracteres"
       password_confirmation:
         confirmation: "- as senhas não coincidem"
+  helpers:
+    submit:
+      create: "Cadastrar"
+      update: "Atualizar"
+  date:
+    month_names:
+      - ~
+      - janeiro
+      - fevereiro
+      - março
+      - abril
+      - maio
+      - junho
+      - julho
+      - agosto
+      - setembro
+      - outubro
+      - novembro
+      - dezembro
