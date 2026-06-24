@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "/movies/:id" => "movies#show", as: 'movie'
   
   get "/profile" => "users#index", as: 'profile'
-  
+  get "/buscar" => "home#buscar", as: 'buscar'
+
   resources :users, only: [:show, :edit]
   resources :reviews, only: [:create, :update, :destroy]
 

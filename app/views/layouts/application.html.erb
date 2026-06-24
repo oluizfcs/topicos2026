@@ -54,9 +54,9 @@
         </li>
       </ul>
       <% end %>
-      <form action="/buscar" method="GET" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" name="search" class="form-control" placeholder="Pesquisar..." aria-label="Search">
-      </form>
+      <%= form_with url: buscar_path, method: :get, local: true, html: { class: "col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" } do |form| %>
+        <%= form.search_field :q, value: params[:q], class: "form-control", placeholder: "Pesquisar..." %>
+      <% end %>
       <% if user_signed_in? %>
         <div class="dropdown text-end">
           <a href="<%= profile_path %>" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"

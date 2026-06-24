@@ -1,0 +1,9 @@
+<div class="text-center fs-5 bg-dark-subtle p-3" style="margin-top: -3rem;">
+  Pesquisando por:<br>
+  <span class="fs-1 text-primary">"<%= params[:q] %>"</span>
+</div>
+<div class="container mt-3">
+  <p class="fst-italic"><%= @pessoas.size + @filmes.size %> resultados encontrados</p>
+  <%= render 'partials/lista_cards', { list_label: "Pessoas (#{@pessoas.size})", card_list: @pessoas } unless @pessoas.empty? %>
+  <%= render 'partials/lista_cards', { list_label: "Filmes (#{@filmes.size})", card_list: @filmes } unless @filmes.empty? %>
+</div>

@@ -31,4 +31,8 @@ class Movie
     average = "%.1f" % notas.reduce(:+).fdiv(notas.size)
     sprintf("%g", average)
   end
+
+  def generos limit = 0
+    self.genres.limit(limit).map(&:nome).join(', ')
+  end
 end
