@@ -12,4 +12,16 @@ class Admin::ImagesController < ApplicationController
       head :unprocessable_entity
     end
   end
+  
+  def destroy_from_person
+    image_id = params[:image_id]
+    
+    photo = Person.find(params[:person_id]).photos.find(image_id)
+
+    if photo.destroy
+      render turbo_stream: turbo_stream.remove("img-container-#{image_id}")
+    else
+      head :unprocessable_entity
+    end
+  end
 end

@@ -18,7 +18,7 @@
     <div class="card-body">
       <dl class="row mb-0">
         <div class="clearfix">
-        <%= image_tag @person.photo.present? ? @person.photo_url : "profile.png", alt: "Foto de " + @person.nome, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
+        <%= image_tag @person.photos.present? ? @person.photos[0].image_url : "profile.png", alt: "Foto de " + @person.nome, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
         <h1 class="display-2"><%= @person.nome %></h1>
         <%= @person.biografia %>
         </div>
@@ -27,6 +27,13 @@
       <%= render 'partials/lista_cards', { list_label: "Dirigiu", card_list: @credits["diretor"] } if @credits["diretor"].present? %>
       <%= render 'partials/lista_cards', { list_label: "Escreveu", card_list: @credits["escritor"] } if @credits["escritor"].present? %>
       <%= render 'partials/lista_cards', { list_label: "Produziu", card_list: @credits["produtor"] } if @credits["produtor"].present? %>
+      <% if @person.photos.size > 2 %>
+      <hr>
+      <p class="fs-3 fw-bold">Fotos (<%= @person.photos.size-1 %>)</p>
+        <% @person.photos.drop(1).each do |photo| %>
+          <%= image_tag photo.image_url, alt: "", style: "max-width: 300px; border-raidus: 6px;" %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

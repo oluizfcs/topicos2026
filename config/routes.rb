@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :studios
 
     delete "/images/:image_id/movie/:movie_id", to: "images#destroy_from_movie"
+    delete "/images/:image_id/person/:person_id", to: "images#destroy_from_person"
   end
 
   get "/people/buscar" => "people#buscar"

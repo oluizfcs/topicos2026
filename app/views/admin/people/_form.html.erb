@@ -71,16 +71,36 @@
     <% end %>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :photo, "Foto", class: "form-label fw-semibold" %>
-    <%= form.hidden_field :photo, value: person.cached_photo_data %>
-    <%= form.file_field :photo, accept: "image/*" %>
-    <% if person.errors[:photo].any? %>
-      <div class="invalid-feedback d-block">
-        <%= person.errors[:photo].join(", ") %>
+  <% unless @person.photos.empty? %>
+    <div class="mb-4">
+      <label class="form-label fw-bold">Imagens cadastradas</label>
+      <div class="d-flex flex-wrap gap-3">
+        <% @person.photos.each do |imagem| %>
+          <div id="img-container-<%= imagem.id %>" class="text-center" style="width: 130px">
+            <%= image_tag imagem.image_url, alt: "", class: "img-thumbnail mb-1", style: "height: 90px; object-fit: cover" %>
+
+            <%# {{-- Botão de remoção individual --}} %>
+            <%= link_to "Excluir", "/admin/images/#{imagem.id}/person/#{imagem.person.id}",
+              data: {
+                turbo_method: :delete,
+                turbo_confirm: "Tem certeza que deseja excluir?"
+              }, class: "delete-image btn btn-outline-danger btn-sm w-100" %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
+  <% end %>
+
+  <!--  {{-- Container que recebe os novos campos --}}-->
+  <div id="campos-imagem">
+    <div class="campo-imagem mb-2 d-flex align-items-center gap-2">
+      <input type="file" name="person[photos][]" class="form-control"
+             accept="image/jpeg,image/png,image/webp">
+    </div>
   </div>
+  <button type="button" id="btn-adicionar" class="btn btn-outline-secondary btn-sm">
+    + Adicionar imagem
+  </button>
 
   <div class="d-flex gap-2 mt-4">
     <%= form.submit class: "btn btn-primary" %>
@@ -88,3 +108,21 @@
   </div>
 
 <% end %>
+
+<script>
+  {
+  const containerImg = document.getElementById('campos-imagem');
+  const btnAdicionar = document.getElementById('btn-adicionar');
+
+  btnAdicionar.addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.className = 'campo-imagem mb-2 d-flex align-items-center gap-2';
+      div.innerHTML = `
+        <input type="file" name="person[photos][]" class="form-control"
+        accept="image/jpeg,image/png,image/webp">
+        <button type="button" class="btn btn-sm btn-outline-danger"
+        onclick="this.closest('.campo-imagem').remove();">✕</button>`;
+      containerImg.appendChild(div);
+  });
+  }
+</script>

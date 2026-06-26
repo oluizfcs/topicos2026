@@ -24,8 +24,13 @@ class Admin::PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
 
+    params.dig(:person, :photos)&.each do |photo|
+      next if photo.blank?
+      @person.photos.build(image: photo)
+    end
+
     if @person.save
-      redirect_to [:admin, @person], notice: "Person was successfully created."
+      redirect_to [:admin, @person], notice: "Pessoa criada com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,8 +38,13 @@ class Admin::PeopleController < ApplicationController
 
   # PATCH/PUT /people/1
   def update
+    params.dig(:person, :photos)&.each do |photo|
+      next if photo.blank?
+      @person.photos.build(image: photo)
+    end
+
     if @person.update(person_params)
-      redirect_to [:admin, @person], notice: "Person was successfully updated.", status: :see_other
+      redirect_to [:admin, @person], notice: "Pessoa atualizada com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +53,7 @@ class Admin::PeopleController < ApplicationController
   # DELETE /people/1
   def destroy
     @person.destroy!
-    redirect_to admin_people_url, notice: "Person was successfully destroyed.", status: :see_other
+    redirect_to admin_people_url, notice: "Pessoa excluída com sucesso.", status: :see_other
   end
 
   private
@@ -57,7 +67,7 @@ class Admin::PeopleController < ApplicationController
       params.require(:person).permit(
         :cpf, :nome, :data_nascimento,
         :biografia, :genero, :nacionalidade,
-        :photo, :photo_cache
+        photos_attributes: [:id, :image, :_destroy]
       )
     end
 end

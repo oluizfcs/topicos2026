@@ -31,8 +31,11 @@
         <dt class="col-sm-3 text-muted">Nacionalidade</dt>
         <dd class="col-sm-9"><%= @person.nacionalidade %></dd>
       </dl>
-        <% if @person.photo.present? %>
-          <%= image_tag @person.photo_url, alt: "Foto de " + @person.nome, style: "max-width: 300px; border-raidus: 6px;" %>
+        <% if @person.photos.present? %>
+        <p class="fs-3 fw-bold">Fotos (<%= @person.photos.size %>)</p>
+          <% @person.photos.each do |photo| %>
+            <%= image_tag photo.image_url, alt: "Foto de #{@person.nome}", style: "max-width: 300px; border-raidus: 6px;" %>
+          <% end %>
         <% else %>
           <p>Nenuma foto cadastrada.</p>
         <% end %>
