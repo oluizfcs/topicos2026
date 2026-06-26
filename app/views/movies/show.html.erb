@@ -51,6 +51,13 @@
         <dd class="col-sm-9"><%= @movie.people.where(tipo: "produtor").map{ |mp| link_to mp.person.nome, mp.person }.to_a.join(', ').html_safe %>
       </dl>
       <%= render 'partials/lista_cards', { list_label: "Elenco", card_list: @elenco } if @elenco.present? %>
+      <% if @movie.movie_photos.size > 1 %>
+      <hr>
+      <p class="fs-3 fw-bold">Fotos (<%= @movie.movie_photos.size-1 %>)</p>
+        <% @movie.movie_photos.each do |photo| %>
+          <%= image_tag photo.image_url, alt: "", style: "max-width: 300px; border-raidus: 6px;" unless photo.is_poster? %>
+        <% end %>
+      <% end %>
       <hr>
       <% if current_user.present? %>
         <% if @review.persisted? %>
