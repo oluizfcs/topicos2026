@@ -11,8 +11,6 @@ Shrine.storages = {
   )
 }
 
-Rails.application.config.to_prepare do
-  Shrine.plugin :mongoid
-  Shrine.plugin :cached_attachment_data
-  Shrine.plugin :restore_cached_data
-end
+Shrine.plugin :mongoid
+Shrine.plugin :cached_attachment_data
+Shrine.plugin :restore_cached_data

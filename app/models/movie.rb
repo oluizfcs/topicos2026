@@ -9,7 +9,7 @@ class Movie
   field :sinopse, type: String
 
   attr_accessor :poster_index
-  embeds_many :movie_photos
+  embeds_many :movie_photos, cascade_callbacks: true
   embeds_many :people, class_name: "MoviePerson"
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :genres

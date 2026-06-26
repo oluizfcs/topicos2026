@@ -41,7 +41,26 @@ class Admin::MoviesController < ApplicationController
 
   # PATCH/PUT /movies/1
   def update
-    if @movie.update(movie_params)
+    @movie.movie_photos.each do |p|
+      if p.is_poster
+        p.is_poster = false
+      end
+    end
+
+    params.dig(:movie, :photos)&.each_with_index do |photo, i|
+      next if photo.blank?
+      @movie.movie_photos.build(
+        image: photo,
+        is_poster: false
+      )
+    end
+
+    unless @movie.movie_photos.empty?
+      poster = @movie.movie_photos[movie_params[:poster_index].to_i.clamp(0, @movie.movie_photos.size - 1)]
+      poster.update(is_poster: true)
+    end
+
+    if @movie.update(movie_params.except(:poster_index))
       redirect_to [:admin, @movie], notice: "O Filme foi atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity

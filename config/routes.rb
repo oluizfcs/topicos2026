@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resources :people
     resources :genres
     resources :studios
+
+    delete "/images/:image_id/movie/:movie_id", to: "images#destroy_from_movie"
   end
 
   get "/people/buscar" => "people#buscar"

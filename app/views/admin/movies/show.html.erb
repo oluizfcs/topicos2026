@@ -39,6 +39,14 @@
           <% end %>
         </dd>
       </dl>
+      <% if @movie.movie_photos.present? %>
+      <p class="fs-3 fw-bold">Fotos (<%= @movie.movie_photos.size %>)</p>
+        <% @movie.movie_photos.each do |photo| %>
+          <%= image_tag photo.image_url, alt: "", class: "#{"border border-primary border-5" if photo.is_poster}", style: "max-width: 300px; border-raidus: 6px;" %>
+        <% end %>
+      <% else %>
+        <p>Nenuma foto cadastrada.</p>
+      <% end %>
     </div>
     <div class="card-footer text-end">
       <%= link_to "Excluir", [:admin, @movie], data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-danger" %>
