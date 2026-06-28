@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
+    get "/people/buscar" => "people#buscar"
+    get "/movies/buscar" => "movies#buscar"
+    
     resources :movies
     resources :people
     resources :genres
@@ -12,7 +15,6 @@ Rails.application.routes.draw do
     delete "/images/:image_id/person/:person_id", to: "images#destroy_from_person"
   end
 
-  get "/people/buscar" => "people#buscar"
   get "/people/:id" => "people#show", as: 'person'
   get "/movies/:id" => "movies#show", as: 'movie'
   

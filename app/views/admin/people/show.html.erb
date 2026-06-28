@@ -40,6 +40,12 @@
           <p>Nenuma foto cadastrada.</p>
         <% end %>
     </div>
+    <div class="m-2">
+      <%= render 'partials/lista_cards', { list_label: "Atuou em", card_list: @credits["ator"] } if @credits["ator"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Dirigiu", card_list: @credits["diretor"] } if @credits["diretor"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Escreveu", card_list: @credits["escritor"] } if @credits["escritor"].present? %>
+      <%= render 'partials/lista_cards', { list_label: "Produziu", card_list: @credits["produtor"] } if @credits["produtor"].present? %>
+    </div>
     <div class="card-footer text-end">
       <%= link_to "Excluir", [:admin, @person], data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-danger" %>
     </div>

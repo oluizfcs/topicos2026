@@ -73,6 +73,53 @@ class Admin::MoviesController < ApplicationController
     redirect_to admin_movies_url, notice: "Movie was successfully destroyed.", status: :see_other
   end
 
+  def buscar
+    termo = Regexp.escape(params[:q].squish)
+    person_id = params[:person_id]
+
+    if termo.size < 2 
+      return render json: []
+    end
+
+    movies = Movie.where(nome: Regexp.new(termo, Regexp::IGNORECASE))
+                  .limit(8)
+                  .only(:id, :nome, :people, :movie_photos)
+
+    person = Person.where(id: person_id).first
+
+    response_data = movies.map do |movie|
+      vinculos = []
+
+      if person.present?
+        
+        if movie.people.where(person_id: person.id, tipo: "ator").exists?
+          vinculos << "ator"
+        end
+        
+        if movie.people.where(person_id: person.id, tipo: "diretor").exists?
+          vinculos << "diretor"
+        end
+
+        if movie.people.where(person_id: person.id, tipo: "produtor").exists?
+          vinculos << "produtor"
+        end
+        
+        if movie.people.where(person_id: person.id, tipo: "escritor").exists?
+          vinculos << "escritor"
+        end
+      end
+
+      {
+        id: movie.id.to_s,
+        nome: movie.nome,
+        foto: movie.poster.image_url,
+        vinculos: vinculos
+      }
+    end
+
+    render json: response_data
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_movie

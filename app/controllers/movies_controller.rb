@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
         title: mp.person.nome,
         subtitle: "Como: #{mp.papel}",
         obj: mp.person,
-        img: mp.person.photo_url
+        img: mp.person.photos[0]&.image_url
       }
     end
     
