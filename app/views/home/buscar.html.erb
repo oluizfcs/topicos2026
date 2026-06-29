@@ -1,9 +1,16 @@
-<div class="text-center fs-5 bg-dark-subtle p-3" style="margin-top: -3rem;">
-  Pesquisando por:<br>
-  <span class="fs-1 text-primary">"<%= params[:q] %>"</span>
-</div>
-<div class="container mt-3">
-  <p class="fst-italic"><%= @pessoas.size + @filmes.size %> resultados encontrados</p>
-  <%= render 'partials/lista_cards', { list_label: "Pessoas (#{@pessoas.size})", card_list: @pessoas } unless @pessoas.empty? %>
-  <%= render 'partials/lista_cards', { list_label: "Filmes (#{@filmes.size})", card_list: @filmes } unless @filmes.empty? %>
-</div>
+<% if @pessoas.size + @filmes.size > 0 %>
+  <div class="text-center fs-5 bg-dark-subtle p-3" style="margin-top: -3rem;">
+    Pesquisando por:<br>
+    <span class="fs-1 text-primary">"<%= params[:q] %>"</span>
+  </div>
+  <div class="container mt-3">
+    <p class="fst-italic"><%= @pessoas.size + @filmes.size %> resultados encontrados</p>
+    <%= render 'partials/lista_cards', { list_label: "Pessoas (#{@pessoas.size})", card_list: @pessoas } unless @pessoas.empty? %>
+    <%= render 'partials/lista_cards', { list_label: "Filmes (#{@filmes.size})", card_list: @filmes } unless @filmes.empty? %>
+  </div>
+<% else%>
+  <div class="text-center fs-5 p-3 m-5" style="border: 3px dashed grey; border-radius: 8px">
+    <span class="text-primary">Nenhum resultado encontrado para "<%= params[:q] %>"</span><br>
+    <span>Tente buscar com outras palavras</span>
+  </div>
+<% end %>

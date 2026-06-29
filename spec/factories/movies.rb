@@ -10,6 +10,7 @@ FactoryBot.define do
       after(:build) do |movie|
         movie.movie_photos << build(:movie_photo, is_poster: true)
         movie.movie_photos << build(:movie_photo, is_poster: false)
+        movie.movie_photos << build(:movie_photo, is_poster: false)
       end
     end
   end

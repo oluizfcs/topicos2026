@@ -26,7 +26,7 @@
         <%= image_tag @movie.poster.present? ? @movie.poster.image_url : "star.png", alt: "Poster de " + @movie.nome, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
         </div>
         <h1 class="display-2"><%= @movie.nome %></h1>
-        <p><i class="bi bi-star-fill text-primary"></i> <%= @movie.nota %></p>
+        <p><i class="bi bi-star-fill text-primary"></i> <%= @movie.display_nota %></p>
         <%= @movie.sinopse %>
       </div>
 

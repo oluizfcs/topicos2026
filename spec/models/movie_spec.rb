@@ -42,7 +42,7 @@ RSpec.describe Movie, type: :model do
 
   describe "#nota" do
     it "returns 0 when movie has no reviews" do
-      expect(movie.nota).to eq(0)
+      expect(movie.display_nota).to eq(0)
     end
   end
 end

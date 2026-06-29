@@ -1,5 +1,18 @@
 class HomeController < ApplicationController
   def index
+    all_actor_ids = Movie.collection.aggregate([
+      { '$unwind' => '$people' },
+      { '$match' => { 'people.tipo' => 'ator' } },
+      { '$group' => { _id: '$people.person_id' } }
+    ]).map { |doc| doc['_id'] }
+
+    @atores = Person.where(:id.in => all_actor_ids.sample(3))
+
+    @filmes = Movie.order("reviews_count DESC").order("nota DESC").limit(3)
+
+    @new_movies = Movie.order("data_lancamento DESC").limit(3)
+
+    @reviews = Review.order(created_at: :desc).limit(6)
   end
 
   def buscar
@@ -19,14 +32,14 @@ class HomeController < ApplicationController
         title: p.nome,
         subtitle: roles.empty? ? "Nenhuma participação" : roles.join(" • "),
         obj: p,
-        img: p.photo_url
+        img: p.photos[0].image_url
       }
     end
 
     @filmes = movies.map do |m|
       {
         title: m.nome,
-        subtitle: "<i class='bi bi-star-fill'></i> #{m.nota} • #{m.generos(2)} • #{m.data_lancamento.strftime("%Y")}".html_safe,
+        subtitle: "<i class='bi bi-star-fill'></i> #{m.display_nota} • #{m.generos(2)} • #{m.data_lancamento.strftime("%Y")}".html_safe,
         obj: m,
         img: m.poster.image_url
       }

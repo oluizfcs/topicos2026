@@ -16,12 +16,11 @@
     <div class="col-md-9 mt-2 mb-2">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner rounded-5">
-          <div class="carousel-item active">
-            <%= image_tag "yellow-banner.png", alt: "yellow banner", class: "d-block w-100"%>
-          </div>
-          <div class="carousel-item">
-            <%= image_tag "black-banner.png", alt: "black banner", class: "d-block w-100"%>
-          </div>
+          <% @new_movies.each_with_index do |movie, index| %>
+            <div class="carousel-item <%= 'active' if index == 0 %>">
+              <%= render 'partials/banner_filme', { movie: movie } %>
+            </div>
+          <% end %>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
                 data-bs-slide="prev">
@@ -37,24 +36,40 @@
     </div>
   </div>
   <!-- Filmes -->
-  <div class="fs-2 mt-4">Filmes em destaque <span class="text-primary">></span></div>
+  <div class="fs-2 mt-4 mb-3"><span class="text-primary fw-bold">|</span> Filmes em destaque</div>
   <div class="row justify-content-center">
-    <%= render 'partials/card_filme', { filme: { id: 1, nome: 'filme1' } } %>
-    <%= render 'partials/card_filme', { filme: { id: 2, nome: 'filme2' } } %>
-    <%= render 'partials/card_filme', { filme: { id: 3, nome: 'filme3' } } %>
+    <% @filmes.each do |filme| %>
+    <%= render 'partials/card_filme', { filme: filme } %>
+    <% end %>
   </div>
   <!-- Atores -->
-  <div class="fs-2 mt-4">Atores em destaque <span class="text-primary">></span></div>
+  <div class="fs-2 mt-4 mb-3"><span class="text-primary fw-bold">|</span> Atores aleatórios</div>
   <div class="row justify-content-center">
-    <%= render 'partials/card_ator', { ator: { id: 1, nome: 'Fulano'} } %>
-    <%= render 'partials/card_ator', { ator: { id: 2, nome: 'Sicrano'} } %>
-    <%= render 'partials/card_ator', { ator: { id: 3, nome: 'Beltrano'} } %>
+    <% @atores.each do |ator| %>
+    <%= render 'partials/card_ator', { ator: ator } %>
+    <% end %>
   </div>
   <!-- Avaliações -->
-  <div class="fs-2 mt-4">Avaliações em destaque <span class="text-primary">></span></div>
-  <div class="row justify-content-center">
-    <%= render 'partials/card_avaliacao', { avaliacao: { nota: 5, filme: 'filme1', usuario: 'Fulano'} } %>
-    <%= render 'partials/card_avaliacao', { avaliacao: { nota: 4, filme: 'filme2', usuario: 'Sicrano'} } %>
-    <%= render 'partials/card_avaliacao', { avaliacao: { nota: 3, filme: 'filme3', usuario: 'Beltrano'} } %>
+  <div class="fs-2 mt-4 mb-3"><span class="text-primary fw-bold">|</span> Avaliações recentes</div>
+  <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-theme="light">
+    <div class="carousel-inner">
+      <% @reviews.in_groups_of(3, false).each_with_index do |group, index| %>
+        <div class="carousel-item <%= 'active' if index == 0 %>">
+          <div class="row justify-content-center">
+            <% group.each do |review| %>
+              <%= render 'partials/card_avaliacao', { review: review } %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
 </div>

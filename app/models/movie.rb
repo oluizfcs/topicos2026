@@ -7,6 +7,8 @@ class Movie
   field :data_lancamento, type: Date
   field :classificacao, type: String
   field :sinopse, type: String
+  field :reviews_count, type: Integer, default: 0
+  field :nota, type: Float, default: 0
 
   CLASSIFICACOES = %w[ L 10 12 14 16 18 ]
 
@@ -34,7 +36,7 @@ class Movie
     end.join(' ')
   end
 
-  def nota
+  def display_nota
     notas = self.reviews.pluck(:nota)
     return 0 if notas.empty?
     
