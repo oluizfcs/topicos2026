@@ -11,4 +11,6 @@ class Person
   
   embeds_many :photos, class_name: "PersonPhoto", cascade_callbacks: true
   accepts_nested_attributes_for :photos, allow_destroy: true
+
+  validates :nome, presence: true
 end

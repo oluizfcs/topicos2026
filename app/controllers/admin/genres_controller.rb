@@ -25,7 +25,7 @@ class Admin::GenresController < ApplicationController
     @genre = Genre.new(genre_params)
 
     if @genre.save
-      redirect_to [:admin, @genre], notice: "Genre was successfully created."
+      redirect_to [:admin, @genre], notice: "Gênero criado com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class Admin::GenresController < ApplicationController
   # PATCH/PUT /genres/1
   def update
     if @genre.update(genre_params)
-      redirect_to [:admin, @genre], notice: "Genre was successfully updated.", status: :see_other
+      redirect_to [:admin, @genre], notice: "Gênero atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class Admin::GenresController < ApplicationController
   # DELETE /genres/1
   def destroy
     @genre.destroy!
-    redirect_to admin_genres_url, notice: "Genre was successfully destroyed.", status: :see_other
+    redirect_to admin_genres_url, notice: "Gênero excluído com sucesso.", status: :see_other
   end
 
   private

@@ -24,7 +24,7 @@ class Admin::MoviesController < ApplicationController
   def create
     @movie = Movie.new(movie_params.except(:poster_index))
 
-    params.dig(:movie, :photos).each_with_index do |photo, i|
+    params.dig(:movie, :photos)&.each_with_index do |photo, i|
       next if photo.blank?
       @movie.movie_photos.build(
         image: photo,
@@ -33,7 +33,7 @@ class Admin::MoviesController < ApplicationController
     end
 
     if @movie.save
-      redirect_to [:admin, @movie], notice: "O Filme foi criado com sucesso."
+      redirect_to [:admin, @movie], notice: "Filme criado com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -61,7 +61,7 @@ class Admin::MoviesController < ApplicationController
     end
 
     if @movie.update(movie_params.except(:poster_index))
-      redirect_to [:admin, @movie], notice: "O Filme foi atualizado com sucesso.", status: :see_other
+      redirect_to [:admin, @movie], notice: "Filme atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -70,7 +70,7 @@ class Admin::MoviesController < ApplicationController
   # DELETE /movies/1
   def destroy
     @movie.destroy!
-    redirect_to admin_movies_url, notice: "Movie was successfully destroyed.", status: :see_other
+    redirect_to admin_movies_url, notice: "Filme excluído com sucesso.", status: :see_other
   end
 
   def buscar

@@ -3,6 +3,11 @@ pt-BR:
     errors:
       messages:
         blank: "não pode ficar em branco"
+        taken: "já está em uso"
+        greater_than: "deve ser maior que %{count}"
+    attributes:
+      movie:
+        movie_photos: "Fotos"
   errors:
     attributes:
       password:

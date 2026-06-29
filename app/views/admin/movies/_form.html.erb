@@ -23,16 +23,16 @@
 
   <div class="mb-3" style="display: flex; gap: 10px; align-items: center;">
     <%= form.label :duracao, "Duração: ", class: "form-label fw-semibold mb-0" %>
-    <%= form.number_field :horas, onchange: "calcularDuracao();", style: "max-width: 65px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+    <%= form.number_field :horas, onchange: "calcularDuracao();", style: "max-width: 85px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
     <%= form.label :horas, "hora(s) e", class: "form-label fw-semibold mb-0" %>
-    <%= form.number_field :minutos, onchange: "calcularDuracao();", style: "max-width: 65px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
+    <%= form.number_field :minutos, onchange: "calcularDuracao();", style: "max-width: 85px;", class: "form-control #{"is-invalid" if movie.errors[:duracao].any?}" %>
     <%= form.label :minutos, "minuto(s)", class: "form-label fw-semibold mb-0" %>
+    <%= form.hidden_field :duracao %>
     <% if movie.errors[:duracao].any? %>
       <div class="invalid-feedback d-block">
         <%= movie.errors[:duracao].join(", ") %>
       </div>
     <% end %>
-    <%= form.hidden_field :duracao %>
   </div>
 
   <div class="mb-3">
@@ -67,10 +67,10 @@
 
   <div class="mb-3">
     <%= form.label :genre_ids, "Gêneros", class: "form-label fw-semibold" %>
-    <%= form.collection_select :genre_ids, Genre.all, :id, :nome, {}, { multiple: true, class: "form-control #{"is-invalid" if movie.errors[:genre_ids].any?}" } %>
+    <%= form.collection_select :genre_ids, Genre.all, :id, :nome, {}, { multiple: true, class: "form-control #{"is-invalid" if movie.errors[:genres].any?}" } %>
     <% if movie.errors[:genre_ids].any? %>
       <div class="invalid-feedback d-block">
-        <%= movie.errors[:genre_ids].join(", ") %>
+        <%= movie.errors[:genres].join(", ") %>
       </div>
     <% end %>
   </div>
@@ -186,12 +186,17 @@
   <!--  {{-- Container que recebe os novos campos --}}-->
   <div id="campos-imagem">
     <div class="campo-imagem mb-2 d-flex align-items-center gap-2">
-      <input type="file" name="movie[photos][]" class="form-control"
+      <input type="file" name="movie[photos][]" class="form-control <%= "is-invalid" if movie.errors[:movie_photos].any? %>"
              accept="image/jpeg,image/png,image/webp">
       <label class="mb-0">
         <input type="radio" name="movie[poster_index]" value="0"> Poster
       </label>
     </div>
+    <% if movie.errors[:movie_photos].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:movie_photos].join(", ") %>
+      </div>
+    <% end %>
   </div>
   <button type="button" id="btn-adicionar" class="btn btn-outline-secondary btn-sm">
     + Adicionar imagem
@@ -205,7 +210,7 @@
 <% end %>
 
 <script>
-  {
+{
   const containerImg = document.getElementById('campos-imagem');
   const btnAdicionar = document.getElementById('btn-adicionar');
 
@@ -323,6 +328,16 @@
   const duracaoMinutos = document.getElementById("movie_minutos");
   const movieDuracao = document.getElementById("movie_duracao");
 
+  duracaoHoras.value = 0;
+  duracaoMinutos.value = 0;
+
+  if (movieDuracao.value == "") movieDuracao.value = 0;
+
+  if (movieDuracao.value != "" && parseInt(movieDuracao.value) > 0) {
+    duracaoHoras.value = parseInt(movieDuracao.value / 60);
+    duracaoMinutos.value = parseInt(movieDuracao.value % 60);
+  }
+
   function calcularDuracao() {
     if (duracaoHoras.value == "") duracaoHoras.value = 0;
     if (duracaoMinutos.value == "") duracaoMinutos.value = 0;
@@ -335,7 +350,5 @@
     let duracao = (parseInt(duracaoHoras.value) * 60) + parseInt(duracaoMinutos.value);
     movieDuracao.value = duracao;
   }
-
-  calcularDuracao();
-  }
+}
 </script>
