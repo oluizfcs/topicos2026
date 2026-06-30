@@ -39,6 +39,8 @@
         <dd class="col-sm-9"><%= @movie.display_duracao %></dd>
         <dt class="col-sm-3 text-muted">Classificação</dt>
         <dd class="col-sm-9"><%= @movie.classificacao %></dd>
+        <dt class="col-sm-3 text-muted">Estúdios</dt>
+        <dd class="col-sm-9"><%= @movie.studios.map { |s| link_to s.nome, s }.to_a.join(', ').html_safe %></dd>
       </dl>
       <hr>
       <h2>Direção, Roteiro e Produção</h2>

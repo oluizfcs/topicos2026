@@ -17,6 +17,7 @@ class Movie
   embeds_many :people, class_name: "MoviePerson"
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :genres
+  has_and_belongs_to_many :studios
   accepts_nested_attributes_for :people, allow_destroy: true
 
   validates :nome, :duracao, :data_lancamento, :classificacao, :movie_photos, presence: true
@@ -46,5 +47,9 @@ class Movie
 
   def generos limit = 0
     self.genres.limit(limit).map(&:nome).join(', ')
+  end
+
+  def estudios limit = 0
+    self.studios.limit(limit).map(&:nome).join(', ')
   end
 end

@@ -76,6 +76,16 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :studio_ids, "Estúdios", class: "form-label fw-semibold" %>
+    <%= form.collection_select :studio_ids, Studio.all, :id, :nome, {}, { multiple: true, class: "form-control #{"is-invalid" if movie.errors[:studios].any?}" } %>
+    <% if movie.errors[:studio_ids].any? %>
+      <div class="invalid-feedback d-block">
+        <%= movie.errors[:studios].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
     <%= form.label :people, "Pessoas vinculadas", class: "form-label fw-semibold" %>
 
     <% 

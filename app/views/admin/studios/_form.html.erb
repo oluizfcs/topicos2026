@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, studio], class: "needs-validation") do |form| %>
+<%= form_with(model: [:admin, studio], multipart: true, class: "needs-validation") do |form| %>
 
   <% if studio.errors.any? %>
     <div class="alert alert-danger">
@@ -31,9 +31,187 @@
     <% end %>
   </div>
 
+<div class="mb-3">
+    <%= form.label :people, "Filmes vinculados", class: "form-label fw-semibold" %>
+
+    <% index_counter = 0 %>
+      <% Movie.where(studio_ids: studio.id).each do |movie| %>
+        <div class="d-flex align-items-center gap-2 mb-2 card-vinculo">
+
+          <input type="hidden" name="studio[movies][<%= index_counter %>][id]" value="<%= movie.id %>">
+
+          <span><%= movie.nome %></span>
+
+          <input type="hidden" name="studio[movies][<%= index_counter %>][_destroy]" value="0">
+          <input type="checkbox"
+                name="studio[movies][<%= index_counter %>][_destroy]"
+                value="1"
+                class="form-check-input" title="Remover">
+          <label class="form-check-label text-danger small">Remover</label>
+          
+        </div>
+        <% index_counter += 1 %>
+    <% end %>
+
+    <div id="vinculos-container" data-offset="<%= index_counter %>"></div>
+    <button type="button" id="btn-vincular" class="btn btn-outline-secondary btn-sm mt-2">
+      + Vincular filme
+    </button>
+
+    <template id="template-vinculo">
+      <div class="card mb-2 card-vinculo">
+        <div class="card-body p-2">
+          <input type="text" class="form-control mb-2 campo-busca" placeholder="Buscar pelo nome do filme...">
+          <div class="lista-resultados list-group mb-2"></div>
+          <input type="hidden" name="" class="campo-filme-id">
+          <div class="d-flex mb-1">
+            <img class="foto-filme rounded-circle ms-2 me-2" style="max-width: 42px" alt="" aria-hidden="true">
+            <span class="nome-filme fs-3"></span>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-danger mt-1 btn-remover">
+            Remover vínculo
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <% if studio.errors[:movies].any? %>
+      <div class="invalid-feedback d-block">
+        <%= studio.errors[:movies].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <% unless @studio.photos.empty? %>
+    <div class="mb-4">
+      <label class="form-label fw-bold">Imagens cadastradas</label>
+      <div class="d-flex flex-wrap gap-3">
+        <% @studio.photos.each do |imagem| %>
+          <div id="img-container-<%= imagem.id %>" class="text-center" style="width: 130px">
+            <%= image_tag imagem.image_url, alt: "", class: "img-thumbnail mb-1", style: "height: 90px; object-fit: cover" %>
+
+            <%# {{-- Botão de remoção individual --}} %>
+            <%= link_to "Excluir", "/admin/images/#{imagem.id}/studio/#{imagem.studio.id}",
+              data: {
+                turbo_method: :delete,
+                turbo_confirm: "Tem certeza que deseja excluir?"
+              }, class: "delete-image btn btn-outline-danger btn-sm w-100" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <label class="form-label fw-bold">Upload Fotos</label>
+  <!--  {{-- Container que recebe os novos campos --}}-->
+  <div id="campos-imagem">
+    <div class="campo-imagem mb-2 d-flex align-items-center gap-2">
+      <input type="file" name="studio[photos][]" class="form-control"
+             accept="image/jpeg,image/png,image/webp">
+    </div>
+  </div>
+  <button type="button" id="btn-adicionar" class="btn btn-outline-secondary btn-sm">
+    + Adicionar imagem
+  </button>
+
   <div class="d-flex gap-2 mt-4">
     <%= form.submit class: "btn btn-primary" %>
     <%= link_to "Cancelar", admin_studios_path, class: "btn btn-outline-secondary" %>
   </div>
 
 <% end %>
+
+<script>
+  {
+    const containerImg = document.getElementById('campos-imagem');
+    const btnAdicionar = document.getElementById('btn-adicionar');
+
+    btnAdicionar.addEventListener('click', () => {
+        const div = document.createElement('div');
+        div.className = 'campo-imagem mb-2 d-flex align-items-center gap-2';
+        div.innerHTML = `
+          <input type="file" name="studio[photos][]" class="form-control"
+          accept="image/jpeg,image/png,image/webp">
+          <button type="button" class="btn btn-sm btn-outline-danger"
+          onclick="this.closest('.campo-imagem').remove();">✕</button>`;
+        containerImg.appendChild(div);
+    });
+
+    const studioId = "<%= studio.id %>";
+    const container = document.getElementById('vinculos-container');
+    const template = document.getElementById('template-vinculo');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    let indice = document.querySelectorAll('.card-vinculo').length;
+
+    document.getElementById('btn-vincular').addEventListener('click', () => {
+      const card = template.content.cloneNode(true).querySelector('.card-vinculo');
+      // Nomeia os campos com o índice atual
+      card.querySelector('.campo-filme-id').name = `studio[movies][${indice}][id]`;
+      inicializarCard(card);
+      container.appendChild(card);
+      indice++;
+    });
+
+    function inicializarCard(card) {
+      const campoBusca = card.querySelector('.campo-busca');
+      const listaResultados = card.querySelector('.lista-resultados');
+      let timer;
+      // Debounce: aguarda 300ms após o usuário parar de digitar
+      campoBusca.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => buscarFilmes(campoBusca.value, listaResultados, card), 300);
+      });
+      // Remover card
+      card.querySelector('.btn-remover').addEventListener('click', () => {
+        card.remove();
+        reindexarVinculos();
+      });
+    }
+
+    function buscarFilmes(termo, lista, card) {
+      if (termo.length < 2) { lista.innerHTML = ''; return; }
+      fetch(`/admin/movies/buscar?q=${encodeURIComponent(termo)}&studio_id=${studioId ?? ''}`, {
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(filmes => {
+        lista.innerHTML = '';
+        if (filmes.length === 0) {
+          lista.innerHTML = '<span class="list-group-item text-muted">Nenhum resultado</span>';
+          return;
+        }
+
+        filmes.forEach(p => {
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'list-group-item list-group-item-action';
+          // Avisa se já existe vínculo deste tipo
+          const aviso = p.vinculos.length > 0
+          ? ` <small class="text-warning">(já vinculado)</small>`
+          : '';
+          item.innerHTML = `${p.nome}${aviso}`;
+          item.addEventListener('click', () => {
+            // Preenche os campos ocultos e exibe o nome selecionado
+            card.querySelector('.campo-filme-id').value = p.id;
+            card.querySelector('.campo-busca').value = '';
+            card.querySelector('.nome-filme').textContent = ' ' + p.nome;
+            if (p.foto != null) {
+              card.querySelector('.foto-filme').src = p.foto
+            }
+            lista.innerHTML = ''; // fecha a lista
+          });
+          lista.appendChild(item);
+          });
+      });
+    }
+
+    function reindexarVinculos() {
+      indice = 0;
+      container.querySelectorAll('.card-vinculo').forEach((card) => { 
+        card.querySelector('.campo-filme-id').name = `studio[movies][${indice}][id]`;
+        indice++;
+      });
+    }
+  }
+</script>

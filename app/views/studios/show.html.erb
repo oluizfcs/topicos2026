@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Estúdio</h1>
+    <div>
+      <%= link_to "Ver no Painel Administrativo", admin_studio_path(@studio), class: "btn btn-outline-secondary me-2" if current_user&.admin? %>
+      <%= link_to "Voltar", :back, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm border-secondary">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <div class="clearfix">
+        <%= image_tag @studio.photos.present? ? @studio.photos[0].image_url : "profile.png", alt: "Foto de " + @studio.nome, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
+        <h1 class="display-2"><%= @studio.nome %></h1>
+        Local: <%= @studio.local.empty? ? "Não informado" : @studio.local %>
+        </div>
+      </dl>
+      <% if @studio.photos.size > 1 %>
+      <hr>
+      <p class="fs-3 fw-bold">Fotos (<%= @studio.photos.size-1 %>)</p>
+        <% @studio.photos.drop(1).each do |photo| %>
+          <%= image_tag photo.image_url, alt: "", style: "max-width: 300px; border-raidus: 6px;" %>
+        <% end %>
+      <% end %>
+      <%= render 'partials/lista_cards', { list_label: "Filmes", card_list: @movies } if @movies.present? %>
+    </div>
+  </div>
+</div>
