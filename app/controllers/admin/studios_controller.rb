@@ -4,7 +4,8 @@ class Admin::StudiosController < ApplicationController
 
   # GET /studios
   def index
-    @studios = Studio.all
+    studios = Studio.all
+    @pagy, @studios = pagy(studios, count: studios.count, limit: 5)
   end
 
   # GET /studios/1

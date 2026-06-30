@@ -38,7 +38,7 @@ class Movie
   end
 
   def display_nota
-    notas = self.reviews.pluck(:nota)
+    notas = self.reviews.pluck(:nota).compact
     return 0 if notas.empty?
     
     average = "%.1f" % notas.reduce(:+).fdiv(notas.size)

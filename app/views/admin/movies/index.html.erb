@@ -11,38 +11,53 @@
     </div>
   <% end %>
 
-  <div class="card shadow-sm">
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle mb-0">
-          <thead class="table-dark">
-            <tr>
-                            <th>Nome</th>
-                            <th>Duracao</th>
-                            <th>Data lancamento</th>
-                            <th>Classificacao</th>
-                            <th>Sinopse</th>
-                            <th class="text-end">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @movies.each do |movie| %>
+  <%= turbo_frame_tag "movies_list" do %>
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
               <tr>
-                                <td><%= movie.nome %></td>
-                                <td><%= movie.duracao %></td>
-                                <td><%= movie.data_lancamento %></td>
-                                <td><%= movie.classificacao %></td>
-                                <td><%= movie.sinopse %></td>
-                                <td class="text-end">
-                  <%= link_to "Ver", [:admin, movie], class: "btn btn-sm btn-outline-info me-1" %>
-                  <%= link_to "Editar", edit_admin_movie_path(movie), class: "btn btn-sm btn-outline-warning me-1" %>
-                  <%= link_to "Excluir", [:admin, movie], data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir?" }, class: "btn btn-sm btn-outline-danger" %>
-                </td>
+                <th>Nome</th>
+                <th>Duracao</th>
+                <th>Data lancamento</th>
+                <th>Classificacao</th>
+                <th>Sinopse</th>
+                <th class="text-end">Ações</th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% @movies.each do |movie| %>
+                <tr>
+                    <td><%= movie.nome %></td>
+                    <td><%= movie.duracao %></td>
+                    <td><%= movie.data_lancamento %></td>
+                    <td><%= movie.classificacao %></td>
+                    <td><%= movie.sinopse %></td>
+                    <td class="text-end">
+                      <%= link_to "Ver", [:admin, movie],
+                        class: "btn btn-sm btn-outline-info me-1",
+                        data: { turbo_frame: "_top" } %>
+                      <%= link_to "Editar", edit_admin_movie_path(movie),
+                        class: "btn btn-sm btn-outline-warning me-1",
+                        data: { turbo_frame: "_top" } %>
+                      <%= link_to "Excluir", [:admin, movie],
+                        data: { 
+                          turbo_frame: "_top",
+                          turbo_method: :delete,
+                          turbo_confirm: "Tem certeza que deseja excluir?"
+                        }, 
+                        class: "btn btn-sm btn-outline-danger" %>
+                    </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="d-flex justify-content-center mt-4">
+      <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% end %>
 </div>

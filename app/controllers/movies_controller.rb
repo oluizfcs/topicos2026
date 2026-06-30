@@ -10,13 +10,13 @@ class MoviesController < ApplicationController
         img: mp.person.photos[0]&.image_url
       }
     end
-    
-    @reviews = @movie.reviews.includes(:user)
 
     if user_signed_in?
-      @review = @reviews.find_or_initialize_by(user_id: current_user.id)
-
-      @reviews = @reviews.filter { |r| r.id != @review.id }
+      @review = @movie.reviews.find_or_initialize_by(user_id: current_user.id)
     end
+    
+    reviews = @movie.reviews.includes(:user)
+    reviews = reviews.where.not(id: @review.id) if @review&.persisted?
+    @pagy, @reviews = pagy(reviews, count: reviews.count, limit: 5)
   end
 end

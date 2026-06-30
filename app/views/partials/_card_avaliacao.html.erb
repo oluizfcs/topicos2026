@@ -44,7 +44,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark border-secondary text-light">
             <div class="modal-header border-bottom border-secondary">
-                <p class="modal-title fw-bold fs-5"><%= link_to review.movie.nome %> <span style="color: #ffcd85">(<i class="bi bi-star-fill"></i> <%= review.movie.display_nota %>)</span></p>
+                <p class="modal-title fw-bold fs-5"><%= link_to review.movie.nome, review.movie %> <span style="color: #ffcd85">(<i class="bi bi-star-fill"></i> <%= review.movie.display_nota %>)</span></p>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">

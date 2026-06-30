@@ -11,7 +11,7 @@ User.create!(
 )
 
 puts " Generating Users..."
-20.times do |i|
+200.times do |i|
   User.create!(
     nome: "Usuário #{i}",
     email: "user#{i}@seed.com",
@@ -30,6 +30,16 @@ genres = [
   Genre.create!(nome: genre_name)
 end
 
+puts " Generating Studios..."
+10.times do
+  studio_name = "#{Faker::Company.name} #{['Studios', 'Pictures', 'Filmes', 'Entertainment'].sample}"
+
+  Studio.create!(
+    nome: studio_name,
+    local: "#{Faker::Address.city}, #{Faker::Address.country}"
+  )
+end
+
 puts " Generating Movies..."
 all_users = User.all
 
@@ -41,8 +51,9 @@ all_users = User.all
     duracao: rand(80..180),
     classificacao: Movie::CLASSIFICACOES.sample,
     genre_ids: genres.sample(rand(1..3)).map(&:id),
+    studio_ids: Studio.pluck(:id).sample(rand(1..2))
   ) do |movie|
-    review_count = rand(0..8)
+    review_count = rand(0..50)
     reviewers = all_users.sample(review_count)
     
     reviewers.each do |user|

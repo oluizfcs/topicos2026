@@ -4,7 +4,8 @@ class Admin::PeopleController < ApplicationController
 
   # GET /people
   def index
-    @people = Person.all
+    people = Person.all
+    @pagy, @people = pagy(people, count: people.count, limit: 5)
   end
 
   # GET /people/1

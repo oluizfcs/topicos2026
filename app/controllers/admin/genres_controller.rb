@@ -4,7 +4,8 @@ class Admin::GenresController < ApplicationController
 
   # GET /genres
   def index
-    @genres = Genre.all
+    genres = Genre.all
+    @pagy, @genres = pagy(genres, count: genres.count, limit: 5)
   end
 
   # GET /genres/1

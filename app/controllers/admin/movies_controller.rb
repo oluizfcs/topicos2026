@@ -4,7 +4,8 @@ class Admin::MoviesController < ApplicationController
 
   # GET /movies
   def index
-    @movies = Movie.all
+    movies = Movie.all
+    @pagy, @movies = pagy(movies, count: movies.count, limit: 5)
   end
 
   # GET /movies/1

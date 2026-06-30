@@ -70,9 +70,14 @@
         <% end %>
         <hr>
       <% end %>      
-      <h2>Avaliações dos usuários</h2>
+      <h2>Avaliações dos usuários (<%= @pagy.count %>)</h2>
       <% if @reviews.size > 0 %>
+      <%= turbo_frame_tag "reviews_list" do %>
         <%= render @reviews %>
+        <div class="d-flex justify-content-center mt-4">
+          <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+      <% end %>
       <% elsif user_signed_in? && @review.persisted? %>
         <p>Só você avaliou este filme por enquanto.</p>
       <% else %>
@@ -82,7 +87,7 @@
   </div>
 </div>
 
-<% if @review.present? %>
+<% if @review&.persisted? %>
 <div class="modal fade" id="edit-review-modal-<%= @review.id %>" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

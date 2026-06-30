@@ -204,6 +204,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pagy (9.4.0)
     parallel (1.26.3)
     parser (3.3.6.0)
       ast (~> 2.4.1)
@@ -405,6 +406,7 @@ DEPENDENCIES
   mercadopago-sdk
   mongoid (~> 9.0, >= 9.0.2)
   mongoid-rspec
+  pagy (~> 9.3)
   pry
   pry-doc
   pry-nav

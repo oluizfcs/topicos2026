@@ -71,3 +71,5 @@ gem "mercadopago-sdk"
 
 gem "shrine-mongoid", "~> 1.0"
 gem "image_processing", "~> 1.2"
+
+gem "pagy", "~> 9.3"
