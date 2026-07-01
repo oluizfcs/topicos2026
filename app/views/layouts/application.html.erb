@@ -58,6 +58,9 @@
         <%= form.search_field :q, value: params[:q], class: "form-control", placeholder: "Pesquisar..." %>
       <% end %>
       <% if user_signed_in? %>
+        <% unless current_user.premium? || current_user.admin? %>
+          <%= link_to "Seja Premium", premium_path, class: "btn btn-primary", data: { turbo: false } %>
+        <% end %>
         <div class="dropdown text-end">
           <a href="<%= profile_path %>" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
              data-bs-toggle="dropdown" aria-expanded="false">

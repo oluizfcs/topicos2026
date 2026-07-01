@@ -1,3 +1,5 @@
+require 'mercadopago'
+
 class HomeController < ApplicationController
   def index
     all_actor_ids = Movie.collection.aggregate([
@@ -44,5 +46,39 @@ class HomeController < ApplicationController
         img: m.poster.image_url
       }
     end
+  end
+
+  def premium
+    authenticate_user!
+
+    redirect_to root_path, notice: "Você já é premium!" if current_user.premium
+  end
+
+  def process_payment
+    sdk = Mercadopago::SDK.new(ENV["MERCADO_PAGO_ACCESS_TOKEN"])
+
+    payment_data = {
+      transaction_amount: params[:transaction_amount].to_f,
+      token:              params[:token],
+      description:        'Compra',
+      installments:       params[:installments].to_i,
+      payment_method_id:  params[:payment_method_id],
+      payer: {
+        email:          params.dig(:payer, :email),
+        identification: {
+          type:   params.dig(:payer, :identification, :type),
+          number: params.dig(:payer, :identification, :number)
+        }
+      }
+    }
+
+    result  = sdk.payment.create(payment_data)
+    payment = result[:response]
+
+    if payment['status'] == 'approved'
+      current_user.update(premium: true)
+    end 
+
+    render json: { status: payment['status'], id: payment['id'], detail: payment['status_detail'] }
   end
 end

@@ -1,0 +1,58 @@
+<div class="container">
+  <div id="paymentBrick_container"></div>
+</div>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+  const mp = new MercadoPago("<%= ENV["MERCADO_PAGO_PUBLIC_KEY"] %>", { locale: 'pt-BR' });
+  const bricksBuilder = mp.bricks();
+
+  const renderPaymentBrick = async (bricksBuilder) => {
+    const settings = {
+      initialization: {
+        amount: 100,
+        preferenceId: "<%= @preference_id %>",
+      },
+      customization: {
+        paymentMethods: {
+          creditCard: "all",
+          maxInstallments: 1
+        },
+      },
+      callbacks: {
+        onReady: () => {},
+        onSubmit: ({ formData }) => {
+          return new Promise((resolve, reject) => {
+            fetch("/process_payment", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+              },
+              body: JSON.stringify(formData),
+            })
+            .then(res => res.json())
+            .then(data => {
+              console.log("Status:", data.status);
+              if (data.status == "approved") {
+                alert("Parabéns, agora você é premium!")
+                window.location.href = "/";
+              } else {
+                alert("Pagamento: " + data.status);
+              }
+              resolve();
+            })
+            .catch(() => reject());
+          });
+        },
+        onError: (error) => console.error(error),
+      },
+    };
+
+    window.paymentBrickController = await bricksBuilder.create(
+      "payment", "paymentBrick_container", settings
+    );
+  };
+
+  renderPaymentBrick(bricksBuilder);
+</script>

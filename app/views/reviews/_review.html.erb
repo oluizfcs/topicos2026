@@ -11,7 +11,7 @@
         </div>
         
         <div class="d-flex align-items-center gap-2 mb-1">
-          <h3 class="fs-5 mb-0"><%= link_to review.user.nome, review.user %></h3>
+          <h3 class="fs-5 mb-0"><%= link_to review.user.nome, review.user, data: { turbo_frame: "_top" } %></h3>
         </div>
       <% else %>
         <div class="float-start me-3 mb-2">

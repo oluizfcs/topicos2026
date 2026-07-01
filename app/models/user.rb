@@ -19,6 +19,7 @@ class User
 
   ## Custom
   field :admin, type: Boolean, default: false
+  field :premium, type: Boolean, default: false
   field :nome, type: String
   field :photo_data, type: String
   has_many :reviews, dependent: :destroy

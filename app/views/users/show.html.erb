@@ -20,7 +20,10 @@
         <div class="clearfix">
         <%= image_tag @user.photo.present? ? @user.photo_url : "profile.png", alt: "Foto de perfil de " + @user.nome.to_s, class: "float-start img-thumbnail", style: "max-width: 300px; margin-right: 1rem" %>
         <h1 class="display-2"><%= @user.nome %></h1>
-        <i class="bi bi-box-arrow-in-right text-primary fs-5"></i> Entrou em <%= l(@user.created_at, format: "%B de %Y") %>
+        <p><i class="bi bi-box-arrow-in-right text-primary fs-5"></i> Entrou em <%= l(@user.created_at, format: "%B de %Y") %></p>
+        <% if @user.premium? %>
+        <p><i class="bi bi-gem" style="color: #ff0000;"></i> Usuário premium</p>
+        <% end %>
         <%# @user.biografia %>
         </div>
       </dl>

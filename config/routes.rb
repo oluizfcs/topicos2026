@@ -22,11 +22,12 @@ Rails.application.routes.draw do
   
   get "/profile" => "users#index", as: 'profile'
   get "/buscar" => "home#buscar", as: 'buscar'
+  get "/premium" => "home#premium", as: 'premium'
+  post "/process_payment", to: "home#process_payment"
 
   resources :users, only: [:show, :edit]
   resources :reviews, only: [:create, :update, :destroy]
 
-  post "/process_payment", to: "posts#process_payment"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
