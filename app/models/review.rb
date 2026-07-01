@@ -16,7 +16,7 @@ class Review
   def update_movie_attributes
     notas = self.movie.reviews.pluck(:nota)
     return if notas.empty?
-    
+
     self.movie.update(
       reviews_count: self.movie.reviews.size,
       nota: notas.reduce(:+).fdiv(notas.size

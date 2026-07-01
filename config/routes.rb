@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/people/buscar" => "people#buscar"
     get "/movies/buscar" => "movies#buscar"
-    
+
     resources :movies
     resources :people
     resources :genres
@@ -16,17 +16,17 @@ Rails.application.routes.draw do
     delete "/images/:image_id/studio/:studio_id", to: "images#destroy_from_studio"
   end
 
-  get "/people/:id" => "people#show", as: 'person'
-  get "/movies/:id" => "movies#show", as: 'movie'
-  get "/studios/:id" => "studios#show", as: 'studio'
-  
-  get "/profile" => "users#index", as: 'profile'
-  get "/buscar" => "home#buscar", as: 'buscar'
-  get "/premium" => "home#premium", as: 'premium'
+  get "/people/:id" => "people#show", as: "person"
+  get "/movies/:id" => "movies#show", as: "movie"
+  get "/studios/:id" => "studios#show", as: "studio"
+
+  get "/profile" => "users#index", as: "profile"
+  get "/buscar" => "home#buscar", as: "buscar"
+  get "/premium" => "home#premium", as: "premium"
   post "/process_payment", to: "home#process_payment"
 
-  resources :users, only: [:show, :edit]
-  resources :reviews, only: [:create, :update, :destroy]
+  resources :users, only: [ :show, :edit ]
+  resources :reviews, only: [ :create, :update, :destroy ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

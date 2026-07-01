@@ -3,7 +3,7 @@ class Admin::ImagesController < ApplicationController
 
   def destroy_from_movie
     image_id = params[:image_id]
-    
+
     photo = Movie.find(params[:movie_id]).movie_photos.find(image_id)
 
     if photo.destroy
@@ -12,10 +12,10 @@ class Admin::ImagesController < ApplicationController
       head :unprocessable_entity
     end
   end
-  
+
   def destroy_from_person
     image_id = params[:image_id]
-    
+
     photo = Person.find(params[:person_id]).photos.find(image_id)
 
     if photo.destroy
@@ -24,10 +24,10 @@ class Admin::ImagesController < ApplicationController
       head :unprocessable_entity
     end
   end
-  
+
   def destroy_from_studio
     image_id = params[:image_id]
-    
+
     photo = Studio.find(params[:studio_id]).photos.find(image_id)
 
     if photo.destroy

@@ -34,22 +34,22 @@ class Movie
     [].tap do |parts|
       parts << "#{horas}h" if horas > 0
       parts << "#{minutos}m" if minutos > 0 || horas.zero?
-    end.join(' ')
+    end.join(" ")
   end
 
   def display_nota
     notas = self.reviews.pluck(:nota).compact
     return 0 if notas.empty?
-    
+
     average = "%.1f" % notas.reduce(:+).fdiv(notas.size)
     sprintf("%g", average)
   end
 
-  def generos limit = 0
-    self.genres.limit(limit).map(&:nome).join(', ')
+  def generos(limit = 0)
+    self.genres.limit(limit).map(&:nome).join(", ")
   end
 
-  def estudios limit = 0
-    self.studios.limit(limit).map(&:nome).join(', ')
+  def estudios(limit = 0)
+    self.studios.limit(limit).map(&:nome).join(", ")
   end
 end

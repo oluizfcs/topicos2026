@@ -1,12 +1,12 @@
-require 'mercadopago'
+require "mercadopago"
 
 class HomeController < ApplicationController
   def index
     all_actor_ids = Movie.collection.aggregate([
-      { '$unwind' => '$people' },
-      { '$match' => { 'people.tipo' => 'ator' } },
-      { '$group' => { _id: '$people.person_id' } }
-    ]).map { |doc| doc['_id'] }
+      { "$unwind" => "$people" },
+      { "$match" => { "people.tipo" => "ator" } },
+      { "$group" => { _id: "$people.person_id" } }
+    ]).map { |doc| doc["_id"] }
 
     @atores = Person.where(:id.in => all_actor_ids.sample(3))
 
@@ -25,7 +25,7 @@ class HomeController < ApplicationController
 
     @pessoas = people.map do |p|
       linked_movies = Movie.where("people.person_id" => p.id)
-      
+
       roles = linked_movies.flat_map do |m|
         m.people.select { |mp| mp.person_id == p.id }.map { |mp| mp.tipo.capitalize }
       end.uniq
@@ -60,7 +60,7 @@ class HomeController < ApplicationController
     payment_data = {
       transaction_amount: params[:transaction_amount].to_f,
       token:              params[:token],
-      description:        'Compra',
+      description:        "Compra",
       installments:       params[:installments].to_i,
       payment_method_id:  params[:payment_method_id],
       payer: {
@@ -75,10 +75,10 @@ class HomeController < ApplicationController
     result  = sdk.payment.create(payment_data)
     payment = result[:response]
 
-    if payment['status'] == 'approved'
+    if payment["status"] == "approved"
       current_user.update(premium: true)
-    end 
+    end
 
-    render json: { status: payment['status'], id: payment['id'], detail: payment['status_detail'] }
+    render json: { status: payment["status"], id: payment["id"], detail: payment["status_detail"] }
   end
 end

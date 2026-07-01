@@ -40,7 +40,7 @@ class Admin::StudiosController < ApplicationController
 
     if @studio.save
       sync_movies(params[:studio][:movies])
-      redirect_to [:admin, @studio], notice: "Estúdio criado com sucesso."
+      redirect_to [ :admin, @studio ], notice: "Estúdio criado com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -55,7 +55,7 @@ class Admin::StudiosController < ApplicationController
 
     if @studio.update(studio_params)
       sync_movies(params[:studio][:movies])
-      redirect_to [:admin, @studio], notice: "Estúdio atualizado com sucesso.", status: :see_other
+      redirect_to [ :admin, @studio ], notice: "Estúdio atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end

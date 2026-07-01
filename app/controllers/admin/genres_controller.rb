@@ -26,7 +26,7 @@ class Admin::GenresController < ApplicationController
     @genre = Genre.new(genre_params)
 
     if @genre.save
-      redirect_to [:admin, @genre], notice: "Gênero criado com sucesso."
+      redirect_to [ :admin, @genre ], notice: "Gênero criado com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class Admin::GenresController < ApplicationController
   # PATCH/PUT /genres/1
   def update
     if @genre.update(genre_params)
-      redirect_to [:admin, @genre], notice: "Gênero atualizado com sucesso.", status: :see_other
+      redirect_to [ :admin, @genre ], notice: "Gênero atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end

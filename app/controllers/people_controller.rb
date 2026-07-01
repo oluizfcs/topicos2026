@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   def show
     @person = Person.find(params[:id])
     @movies = Movie.where("people.person_id" => @person.id)
-    
+
     @credits = @movies.flat_map do |movie|
       movie.people.select { |mp| mp.person_id == @person.id }.map do |mp|
         {

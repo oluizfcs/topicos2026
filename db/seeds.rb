@@ -32,7 +32,7 @@ end
 
 puts " Generating Studios..."
 10.times do
-  studio_name = "#{Faker::Company.name} #{['Studios', 'Pictures', 'Filmes', 'Entertainment'].sample}"
+  studio_name = "#{Faker::Company.name} #{[ 'Studios', 'Pictures', 'Filmes', 'Entertainment' ].sample}"
 
   Studio.create!(
     nome: studio_name,
@@ -55,18 +55,18 @@ all_users = User.all
   ) do |movie|
     review_count = rand(0..50)
     reviewers = all_users.sample(review_count)
-    
+
     reviewers.each do |user|
       nota = rand(1..5)
 
       review_title = case nota
-                     when 4..5
+      when 4..5
                       Faker::Adjective.positive.capitalize
-                     when 3
-                      ["Interessante", "Regular", "Ok", "Mediano"].sample
-                     else
+      when 3
+                      [ "Interessante", "Regular", "Ok", "Mediano" ].sample
+      else
                       Faker::Adjective.negative.capitalize
-                     end
+      end
 
       Review.create!(
         movie: movie,
@@ -88,7 +88,7 @@ people_images = Dir.glob(Rails.root.join('lib', 'seeds', 'images', 'thispersondo
     biografia: Faker::Lorem.paragraph(sentence_count: 3),
     cpf: Faker::IdNumber.brazilian_citizen_number(formatted: true),
     data_nascimento: Faker::Date.between(from: "1970-01-01", to: "2010-01-01"),
-    photos: [PersonPhoto.new(image: File.open(people_images.sample))]
+    photos: [ PersonPhoto.new(image: File.open(people_images.sample)) ]
   )
 end
 
@@ -98,7 +98,7 @@ Movie.all.each do |movie|
   Person.all.sample(rand(2..5)).each do |person|
     movie.people.create!(
       person_id: person.id,
-      tipo: ["ator", "diretor", "escritor"].sample,
+      tipo: [ "ator", "diretor", "escritor" ].sample,
       papel: Faker::Name.first_name
     )
   end

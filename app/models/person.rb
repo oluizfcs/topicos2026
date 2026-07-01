@@ -8,7 +8,7 @@ class Person
   field :biografia, type: String
   field :genero, type: String
   field :nacionalidade, type: String
-  
+
   embeds_many :photos, class_name: "PersonPhoto", cascade_callbacks: true
   accepts_nested_attributes_for :photos, allow_destroy: true
 

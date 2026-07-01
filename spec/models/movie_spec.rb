@@ -15,9 +15,9 @@ RSpec.describe Movie, type: :model do
     it { is_expected.to validate_presence_of(:movie_photos) }
 
     it { is_expected.to validate_inclusion_of(:classificacao).to_allow(Movie::CLASSIFICACOES) }
-    it { is_expected.to validate_numericality_of(:duracao).to_allow(:only_integer => true, :greater_than => 0) }
+    it { is_expected.to validate_numericality_of(:duracao).to_allow(only_integer: true, greater_than: 0) }
   end
-    
+
   describe "#display_duracao" do
     it "converts minutes into readable format" do
       expect(movie.display_duracao).to eq("2h 5m")

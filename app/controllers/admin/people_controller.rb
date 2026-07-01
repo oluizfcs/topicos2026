@@ -11,7 +11,7 @@ class Admin::PeopleController < ApplicationController
   # GET /people/1
   def show
     movies = Movie.where("people.person_id" => @person.id)
-    
+
     @credits = movies.flat_map do |movie|
       movie.people.select { |mp| mp.person_id == @person.id }.map do |mp|
         {
@@ -46,7 +46,7 @@ class Admin::PeopleController < ApplicationController
     end
 
     if @person.save
-      redirect_to [:admin, @person], notice: "Pessoa criada com sucesso."
+      redirect_to [ :admin, @person ], notice: "Pessoa criada com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -62,7 +62,7 @@ class Admin::PeopleController < ApplicationController
     end
 
     if @person.update(person_params.except(:movies))
-      redirect_to [:admin, @person], notice: "Pessoa atualizada com sucesso.", status: :see_other
+      redirect_to [ :admin, @person ], notice: "Pessoa atualizada com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -74,7 +74,7 @@ class Admin::PeopleController < ApplicationController
     Movie.where("people.person_id" => @person.id).each do |m|
       m.people.select { |mp| mp.person_id == @person.id }.each(&:destroy)
     end
-    
+
     redirect_to admin_people_url, notice: "Pessoa excluída com sucesso.", status: :see_other
   end
 
@@ -82,10 +82,10 @@ class Admin::PeopleController < ApplicationController
     termo = Regexp.escape(params[:q].squish)
     movie_id = params[:movie_id]
 
-    if termo.size < 2 
+    if termo.size < 2
       return render json: []
     end
-    
+
     pessoas = Person.where(nome: Regexp.new(termo, Regexp::IGNORECASE))
                     .limit(8)
                     .only(:id, :nome, :photos)
@@ -96,19 +96,19 @@ class Admin::PeopleController < ApplicationController
       vinculos = []
 
       if movie.present?
-        
+
         if movie.people.where(person_id: p.id, tipo: "ator").exists?
           vinculos << "ator"
         end
-        
+
         if movie.people.where(person_id: p.id, tipo: "diretor").exists?
           vinculos << "diretor"
         end
-        
+
         if movie.people.where(person_id: p.id, tipo: "produtor").exists?
           vinculos << "produtor"
         end
-        
+
         if movie.people.where(person_id: p.id, tipo: "escritor").exists?
           vinculos << "escritor"
         end
@@ -136,15 +136,15 @@ class Admin::PeopleController < ApplicationController
       params.require(:person).permit(
         :cpf, :nome, :data_nascimento,
         :biografia, :genero, :nacionalidade,
-        photos_attributes: [:id, :image, :_destroy],
-        movies: [:id, :movie_id, :tipo, :papel, :_destroy]
+        photos_attributes: [ :id, :image, :_destroy ],
+        movies: [ :id, :movie_id, :tipo, :papel, :_destroy ]
       )
     end
 
     def sync_movie_people(person, movies)
       movies&.each_value do |mp|
         movie = Movie.find(mp["movie_id"])
-        
+
         if mp[:_destroy] == "1"
           movie.people.find(mp[:id]).destroy!
           next

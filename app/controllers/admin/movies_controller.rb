@@ -34,7 +34,7 @@ class Admin::MoviesController < ApplicationController
     end
 
     if @movie.save
-      redirect_to [:admin, @movie], notice: "Filme criado com sucesso."
+      redirect_to [ :admin, @movie ], notice: "Filme criado com sucesso."
     else
       render :new, status: :unprocessable_entity
     end
@@ -62,7 +62,7 @@ class Admin::MoviesController < ApplicationController
     end
 
     if @movie.update(movie_params.except(:poster_index))
-      redirect_to [:admin, @movie], notice: "Filme atualizado com sucesso.", status: :see_other
+      redirect_to [ :admin, @movie ], notice: "Filme atualizado com sucesso.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -78,7 +78,7 @@ class Admin::MoviesController < ApplicationController
     termo = Regexp.escape(params[:q].squish)
     person_id = params[:person_id]
 
-    if termo.size < 2 
+    if termo.size < 2
       return render json: []
     end
 
@@ -92,11 +92,11 @@ class Admin::MoviesController < ApplicationController
       vinculos = []
 
       if person.present?
-        
+
         if movie.people.where(person_id: person.id, tipo: "ator").exists?
           vinculos << "ator"
         end
-        
+
         if movie.people.where(person_id: person.id, tipo: "diretor").exists?
           vinculos << "diretor"
         end
@@ -104,7 +104,7 @@ class Admin::MoviesController < ApplicationController
         if movie.people.where(person_id: person.id, tipo: "produtor").exists?
           vinculos << "produtor"
         end
-        
+
         if movie.people.where(person_id: person.id, tipo: "escritor").exists?
           vinculos << "escritor"
         end
@@ -133,6 +133,6 @@ class Admin::MoviesController < ApplicationController
         :nome, :duracao, :data_lancamento,
         :classificacao, :sinopse, :poster_index,
         studio_ids: [], genre_ids: [],
-        people_attributes: [:id, :person_id, :tipo, :papel, :_destroy])
+        people_attributes: [ :id, :person_id, :tipo, :papel, :_destroy ])
     end
 end
